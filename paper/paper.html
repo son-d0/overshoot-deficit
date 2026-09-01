@@ -1,0 +1,938 @@
+<meta charset="utf-8">
+<title>The Overshoot Deficit: A Cross-Market Conditional Scaling Relation in Directional Change</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --paper:#ffffff; --ground:#e8e6e1; --ink:#111111; --ink2:#3a3a3a; --ink3:#6e6e6e;
+  --rule:#111111; --hair:#c9c9c9; --mark:#f6f0dc;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --paper:#f4f2ee; --ground:#15161a; --ink:#111111; --ink2:#3a3a3a; --ink3:#6e6e6e;
+  --rule:#111111; --hair:#c9c9c9; --mark:#f6f0dc;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#f4f2ee; --ground:#15161a; --ink:#111111; --ink2:#3a3a3a; --ink3:#6e6e6e;
+  --rule:#111111; --hair:#c9c9c9; --mark:#f6f0dc;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);padding:26px 14px 60px;
+  font-family:Tinos,"Times New Roman",Times,serif}
+.sheet{max-width:760px;margin:0 auto;background:var(--paper);color:var(--ink);
+  padding:56px 62px 64px;box-shadow:0 2px 6px rgba(0,0,0,.16),0 24px 60px rgba(0,0,0,.24);
+  font-size:16.2px;line-height:1.52}
+@media(max-width:640px){.sheet{padding:34px 24px 42px;font-size:15.4px}}
+.rule{border:none;border-top:2.6px solid var(--rule);margin:0}
+.rule-thin{border:none;border-top:1px solid var(--rule);margin:0}
+h1{font-size:27px;line-height:1.22;font-weight:700;text-align:center;margin:16px 0 18px;
+  text-wrap:balance;letter-spacing:-.005em}
+.auth{text-align:center;margin:14px 0 4px;font-size:15px}
+.auth b{font-weight:700}
+.auth .af{font-size:13.6px;color:var(--ink2);font-style:italic}
+.meta{text-align:center;font-size:12.6px;color:var(--ink3);margin:14px 0 0;
+  font-family:"JetBrains Mono",monospace}
+h2{font-size:16.6px;font-weight:700;margin:26px 0 8px}
+h3{font-size:15.4px;font-weight:700;font-style:italic;margin:18px 0 5px}
+p{margin:0 0 10px;text-align:justify;hyphens:auto}
+.abs{margin:24px 0 6px}
+.abs h2{text-align:center;font-size:16px;margin-bottom:9px}
+.abs p{font-size:15.2px;line-height:1.5}
+em{font-style:italic}
+.mono,code{font-family:"JetBrains Mono",monospace;font-size:.87em}
+figure{margin:22px 0 20px}
+figure svg{width:100%;height:auto;display:block;border:1px solid var(--hair)}
+figcaption{font-size:13.4px;line-height:1.45;margin-top:8px;color:var(--ink2);text-align:justify}
+figcaption b{color:var(--ink)}
+/* colour must be set explicitly on table/th/td: in quirks mode tables do not inherit
+   colour from their ancestors, so it falls back to the colour-scheme default and the text
+   renders white on white */
+table{width:100%;border-collapse:collapse;font-size:13.6px;margin:16px 0 8px;
+  font-variant-numeric:tabular-nums;color:var(--ink);background:var(--paper)}
+caption{caption-side:top;text-align:left;font-size:13.4px;color:var(--ink2);
+  padding-bottom:7px}
+caption b{color:var(--ink)}
+thead th{border-top:1.6px solid var(--rule);border-bottom:.8px solid var(--rule);
+  padding:6px 8px;text-align:right;font-weight:700;color:var(--ink)}
+thead th.l,tbody td.l{text-align:left}
+tbody td{padding:5px 8px;text-align:right;font-family:"JetBrains Mono",monospace;font-size:12.8px;
+  color:var(--ink)}
+tbody td.neg{color:#8c2f2a}
+caption{color:var(--ink2)}
+tbody tr:last-child td{border-bottom:1.6px solid var(--rule)}
+tbody tr.sep td{border-top:.6px solid var(--hair)}
+.hl{background:var(--mark)}
+ol.ref{font-size:13.8px;line-height:1.45;padding-left:22px;margin:6px 0 0}
+ol.ref li{margin-bottom:5px}
+.foot{max-width:760px;margin:16px auto 0;text-align:center;font-size:12px;
+  color:#8a8f98;font-family:"JetBrains Mono",monospace}
+.eq{text-align:center;margin:14px 0;font-size:16.4px}
+.eq .n{float:right;color:var(--ink3);font-size:14px}
+.kw{font-size:13.6px;color:var(--ink2);margin-top:12px}
+
+/* ── PDF export: A4, white ground, no figure or table split across a page break ── */
+@media print{
+  @page{size:A4;margin:20mm 18mm}
+  body{background:#fff;padding:0;font-size:10.5pt;line-height:1.42}
+  .sheet{max-width:none;box-shadow:none;padding:0;font-size:10.5pt;background:#fff;color:#000}
+  h1{font-size:17pt;margin:10pt 0 8pt}
+  h2{font-size:11.5pt;margin:14pt 0 5pt;page-break-after:avoid}
+  h3{font-size:11pt;margin:10pt 0 4pt;page-break-after:avoid}
+  p{margin:0 0 6pt;orphans:3;widows:3}
+  .abs p{font-size:10.5pt}
+  figure,table{page-break-inside:avoid}
+  figure{margin:12pt 0 10pt}
+  figure svg{border:1px solid #999}
+  figcaption{font-size:9pt;margin-top:5pt}
+  table{font-size:8.6pt;margin:9pt 0 5pt}
+  caption{font-size:9pt;padding-bottom:4pt}
+  thead th{padding:4pt 5pt;font-size:8pt}
+  tbody td{padding:3pt 5pt;font-size:8.4pt}
+  thead{display:table-header-group}
+  ol.ref{font-size:9pt}
+  ol.ref li{page-break-inside:avoid;margin-bottom:3pt}
+  .hl{background:#f0f0f0!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .foot{display:none}
+  a{color:#000;text-decoration:none}
+}
+</style>
+
+<div class="sheet">
+<hr class="rule">
+<h1>The Overshoot Deficit: A Cross-Market Conditional<br>Scaling Relation in Directional Change</h1>
+<hr class="rule-thin">
+
+<div class="auth"><b>Son Do</b><br><span class="af">Noralabs, Vietnam</span></div>
+
+<div class="abs">
+<h2>Abstract</h2>
+<p>The Glattfelder–Dupuis–Olsen scaling law, ⟨ω⟩ ≈ δ, supplies the zero-profit benchmark for the
+idealised canonical directional-change round trip: if confirmation occurred exactly at δ, entering at
+the confirmation point and exiting at the next would return zero. Persistent departures from this zero-profit benchmark are precisely where the
+trading edge resides.</p>
+<p>We make that decomposition explicit on VN30F1M index futures, reporting every result across the full
+range of plausible execution costs. Profit splits into a discretisation term and an overshoot deficit,
+and the deficit dominates at practical thresholds. The variable that indexes it is neither θ nor time scale
+but δ measured against the session's realised range: bucketing on that ratio collapses six thresholds
+spanning a twentyfold range of θ onto one curve, crossing unity at δ ≈ 20% of daily range. Because a focal leg can itself contribute to the realised session range used in the denominator, we pre-registered two tests of this self-inclusion — using a disjoint range window and removing each leg's own ticks from the range — and the collapse survives both.</p>
+<p>Variation in the Hurst exponent does not explain this: the noise-corrected local exponent is
+indistinguishable at the horizons of the widest and the narrowest threshold while ⟨ω⟩/δ changes twofold.
+Finite-session spatial compression is the natural remaining explanation, and we tested it rather than
+asserting it. On a second market and a different feed — broker quotes rather than exchange
+trades, a distinction we keep throughout — pre-registered and run once on data withheld from every
+earlier inspection, the relation itself replicates, including a unity crossing at 0.21 to 0.23 against
+0.20 here. The compression prediction does not. <b>The conditional overshoot relation is robust; its mechanism
+remains unresolved.</b></p>
+<p>The relation was fitted on data ending 24 April 2026 and then confronted with the 85 sessions that
+follow, held out from all model development and specification. It predicted ⟨ω⟩/δ = 0.735 against 0.737
+realised, and anticipated that the widest threshold would nearly cease to fire, which it did. The departure it
+identifies is not marginal. The rule that follows from it reads no profit and loss anywhere in its
+construction and breaks even only at an execution cost of <b>1.13 index points per leg</b>, four times
+the estimate for an unconditional liquidity taker. Under five-fold anchored walk-forward, with the
+threshold and holding rule reselected at each fold from preceding data alone, it is <b>profitable after
+costs in every fold</b>, returning a stitched out-of-sample Sharpe of <b>1.79</b> at a Pardo efficiency
+of 80%.</p>
+<p>The relation is descriptive and economically relevant, yet it does not become a control input, and we
+establish why in three steps rather than asserting it. The session range is partly predictable from
+within the session, reaching a rank correlation of 0.76 by mid-morning. The regime it defines becomes
+correctly classifiable at 10:30, though not at 09:45. And a pre-registered rule that sets the threshold
+from that estimate, run once, still loses to a fixed threshold on net profit, Sharpe, drawdown and
+break-even cost. Observing a state variable well enough to name the regime is not the same as observing
+it well enough to steer on it. The diagnostic nevertheless carries the economics: across six thresholds,
+realised ⟨ω⟩/δ tracks break-even cost with a rank correlation of −0.943. Break-even reaches zero at
+⟨ω⟩/δ ≈ 1.14 rather than at unity, and the gap is the discretisation cushion, measured.</p>
+<p class="kw"><b>Keywords:</b> directional change · overshoot · intrinsic time · scaling laws ·
+market microstructure · index futures · walk-forward analysis</p>
+</div>
+
+<h2>1&nbsp;&nbsp;Introduction</h2>
+<p>Directional change (DC) replaces physical time with an event clock: an event is recorded when price
+reverses by a threshold θ from the running extreme. The decomposition splits each price leg into a
+<em>directional-change</em> segment of size δ = θ·P and an <em>overshoot</em> ω that runs beyond it before the
+next extreme forms. Glattfelder, Dupuis and Olsen [1] established empirically across foreign-exchange
+markets that ⟨ω⟩ ≈ δ, one of twelve scaling laws they report; Aloud, Tsang, Olsen and Dupuis [2]
+formalised the event-based framework that surrounds it. The relation is generally reported as
+unconditional, and the associated claim that overshoot length is insensitive to volatility, scaling
+with the threshold regardless of the prevailing level, is stated in the same literature. Both are
+cited widely and used rarely. We think that undersells the first and overstates the second.</p>
+
+<p>Three lines of work follow from that framework. The first carries the scaling description into
+trading design, most directly in the Alpha Engine [3]. The second takes the description to markets
+other than foreign exchange: Ma, Xiong, He and Zhang [4] to Chinese equities, and Ao and Tsang [5] to
+five stock indices including the Hang Seng, where they report an average overshoot length of 0.996
+times the threshold — the unconditional law, holding on daily closing prices. The third, and by now
+the largest, uses directional change as a representation for forecasting and trading: evolutionary
+strategy search [6], backlash agents [7], regime-change detection [12], machine-learned reversal prediction [8], multi-threshold
+algorithmic trading across twenty currency pairs [9], and nowcasting the confirmation itself [10]. A
+recent contribution [11] examines a measurement problem inside the framework, showing that the gap
+between theoretical and actual confirmation points distorts algorithm performance.</p>
+
+<p>Previous work has therefore examined the unconditional average overshoot law across foreign-exchange
+markets and, subsequently, across equity indices including the Hang Seng, and has used directional
+changes primarily for forecasting and trading. <b>We have not found prior work asking whether the
+average-overshoot relation is itself conditional on the spatial scale of the threshold relative to the
+realised price range.</b> That is the question this paper puts.</p>
+<p>The paper begins from an observation we found uncomfortable once we understood it. The most natural DC
+trade, which enters when a reversal is confirmed and holds until the next confirmation, earns the
+retrace at confirmation minus the overshoot. If the scaling law held exactly, and if confirmation occurred exactly
+at δ, the trade would return precisely zero. <em>The scaling law is therefore not background theory for the
+strategy; it is the strategy's null hypothesis.</em> Everything the trade earns is a measurement of
+departure from it.</p>
+<p>Read as a null hypothesis rather than a regularity, the law does real work. It tells you in advance that your
+P&amp;L is a residual, so the question after "does this make money" becomes "which term of the residual is
+producing it, and what moves that term". Our central empirical result is that the relation is not
+unconditional. On this instrument ⟨ω⟩/δ ranges from 1.34 to 0.49, a 2.7-fold variation that is
+systematic rather than noise, and it is indexed by the threshold measured against the session's realised
+range. We make the decomposition explicit, measure both terms on Vietnamese index futures, and identify what indexes the larger. We then show that identifying the indexing variable does not
+translate into a better rule, and that the mechanism behind it survives our own attempt to test it no
+better than it survives the alternatives we rule out.</p>
+
+<h2>2&nbsp;&nbsp;Setup</h2>
+<h3>2.1&nbsp;&nbsp;Data</h3>
+<p>VN30F1M is the front-month futures contract on the VN30 index, traded on the Hanoi exchange with a
+point value of 100,000 VND. Trading is split by a midday break: our sample runs from 09:15 to 14:45
+and contains no observations between 11:30 and 13:00, a fact Section 4 makes use of. Our sample is 18,089,838
+one-second last-trade observations across 1,340 sessions from 25 February 2021 to 26 August 2026.
+Prices are forward-filled within each session only; no backward fill is applied at any point, a point we return to in Section 10.</p>
+<p>The series is constructed by concatenating the one-second last-trade price series of successive
+front-month (F1) contracts. It is not a vendor-supplied continuous contract and no back-adjustment is
+applied. Contract transitions occur between trading sessions. Because all directional-change states,
+extrema, session ranges and positions are reset at each session boundary, overnight roll gaps do not
+enter any reported directional-change leg or profit calculation.</p>
+<p>As a check, none of the 37 one-second price changes exceeding 15 index points occurred on an expiry
+date, while the larger discontinuity associated with contract rollover appears in overnight gaps —
+median 9.80 points after expiry against 4.40 points on ordinary days — outside the analysis window.</p>
+<h3>2.2&nbsp;&nbsp;Cost</h3>
+<p>Round-trip cost is the single input most capable of reversing a verdict in this literature, so we do
+not assume one. The figure used throughout is <b>0.175 index points per leg, or 0.35 per round
+trip</b>, calibrated from realised execution on this contract, inclusive of commission, spread and
+latency, rather than inferred from quoted prices. Every result is
+additionally reported across the interval [0, 1.00] index points per leg, and Table 4 gives that
+sensitivity in full.</p>
+<p>For readers without access to execution records, a Roll [13] estimate on transaction prices with a
+Corwin–Schultz [14] cross-check gives 0.593 points per round trip. That is the charge appropriate to a
+participant who crosses the spread on every order and does not manage execution, and it is therefore an
+upper bound rather than a central estimate: a participant who posts passively and declines to trade when
+the book is thin pays materially less. Substituting it throughout changes no qualitative conclusion in
+this paper, because the reversal rule remains profitable well above it.</p>
+
+<h3>2.3&nbsp;&nbsp;External-market data and replication design</h3>
+<p>The external replication uses Dukascopy HKG.IDX/HKD bid–ask quotes from 25 February 2021 to 26 August
+2026. The downloaded archive contains <b>63,154,002</b> valid quote records; the acquisition audit found
+no structurally corrupt files and no missing quote-bearing interval. Unlike the VN30F1M series, which
+uses last transaction prices, the Hong Kong feed contains quotes rather than trades. We therefore define
+price as the bid–ask midpoint. This distinction is carried explicitly into the interpretation: the
+experiment is a cross-market, cross-feed replication and <em>not</em> an exchange-level replication.</p>
+
+<p>Raw quotes are converted from UTC to Hong Kong time (UTC+8), sampled onto a one-second grid, and
+forward-filled only within the relevant trading window; no backward fill is used and no value is carried
+across a window boundary. The feed is active for approximately 15 of 24 hours. Its complete tradable
+window runs from 09:00 Hong Kong time to 01:00 on the following calendar day, so observations are grouped
+by trading window rather than by calendar date.</p>
+
+<p>The replication defines three nested price windows. <b>Level A</b> uses the complete tradable window,
+09:00–01:00. <b>Level B</b> uses the regular Hong Kong day session, 09:15–12:00 and 13:00–16:30.
+<b>Level C</b> treats the morning and afternoon day sessions as separate sub-sessions. Directional-change
+state and the realised range <em>R</em> are reset at the beginning of every analysis window; consequently
+each Level-C leg is normalised by the range of its own sub-session.</p>
+
+<p>No Hong Kong-specific directional-change parameter is introduced. The external analysis uses the same
+six thresholds, the same δ/R band boundaries, the same minimum requirement of 60 legs per cell, and the
+same cell-level two-way analysis used for VN30F1M. For each window definition we test whether mean ⟨ω⟩/δ
+declines with δ/R, estimate the interpolated unity crossing, measure the residual contribution of
+threshold identity after conditioning on the ratio bands, and estimate the compression slope β<sub>C</sub>.
+The window-compression hypothesis predicts</p>
+
+<p style="text-align:center">β<sub>C, sub-session</sub> &lt; β<sub>C, day</sub> &lt; β<sub>C, full</sub> &lt; 0</p>
+
+<p>The hypotheses, band definitions, effect-size criteria and the ordering above were fixed before the
+governed Hong Kong analysis was executed. The chronology of the interim inspection, the implementation
+correction and the untouched held-back evaluation is reported separately in Section 8.</p>
+
+<h3>2.4&nbsp;&nbsp;Validation protocol</h3>
+<p>Directional change is unusually easy to get wrong. The event structure is defined recursively, extremes
+are identified only in retrospect, and a single backward-looking line produces results that look
+spectacular and mean nothing. We therefore treat validation as a deliverable rather than a formality:
+every check below is a script that runs, and every number it produces is stated here so that a reader
+running the same code can confirm it or contradict it.</p>
+<p><b>V1 &nbsp;Bit-exact reference.</b> The compiled DC implementation is checked against an independent
+reference implementation across four threshold configurations. <b>Zero</b> differing values.</p>
+<p><b>V2 &nbsp;No repainting.</b> The decomposition is recomputed on truncated prefixes of every session.
+Confirmed extremes, TMV and event times change in <b>none of 42,000</b> cases; only the unconfirmed
+running state moves, which is what should happen.</p>
+<p><b>V3 &nbsp;Streaming equals batch.</b> A tick-by-tick implementation reproduces the batch DC state
+exactly, with a maximum probability difference of <b>3×10⁻⁸</b> attributable to floating-point ordering.
+What is backtested is what a live system computes.</p>
+<p>Two further checks, <b>V4</b> and <b>V5</b>, exercise the fitted-model pipeline described in
+Appendix A: shuffling the targets collapses holdout AUC to 0.4995–0.5002, and planting one tick of future
+information makes the model outperform the honest version, +369 against +326. The second is the check we
+consider decisive, because it establishes that the suite has the power to detect what it is testing for.
+A validation suite that has never been shown to fail is not evidence.</p>
+<p>One defect was found and removed during this process: a backward fill affecting 5,540 ticks across two
+sessions, both inside the specification window. Its effect on any reported number is nil. We removed it
+because a validation script containing a look-ahead is worth less than none. The tick-level reconciliation
+performed when the evaluation data arrived is described in Section 5.</p>
+
+<h2>3&nbsp;&nbsp;The overshoot deficit</h2>
+<p>Let a leg run from the previous extreme to the current extreme, with overshoot ω measured from the
+directional-change confirmation point to the extreme, and let <em>r</em> denote the realised retrace from the
+extreme to the next confirmation. Holding a position against the just-confirmed direction over that
+interval returns</p>
+<div class="eq">Π = <em>r</em> − ω = (<em>r</em> − δ) + (δ − ω)<span class="n">(1)</span></div>
+<p>The two terms have entirely different origins. The first, <em>r</em> − δ, is a discretisation effect: confirmation
+fires on the first tick that crosses the threshold, and price overshoots that crossing by roughly one typical
+jump. It is always positive and it scales like a constant number of ticks. Fitting ⟨ω⟩/δ = 1 + k/δ<sub>ticks</sub>
+over θ ∈ [5×10⁻⁴, 2×10⁻³] gives k = 3.61 ticks with residuals of 0.009, 0.059 and 0.043, which
+accounts for the mid-range almost exactly. Note what this term cannot do. It can never push ⟨ω⟩/δ
+below unity, so it cannot be the source of the effect we are after. Ao and Li [11] treat the same gap
+between the confirmation the threshold specifies and the confirmation a discrete tape delivers as a
+distortion to be removed, by substituting theoretical confirmation points. We take the opposite route
+and measure it, because in this decomposition it is not noise but the first term of the profit, and
+Section 7 shows it is what separates the crossing of unity from the boundary of profitability.</p>
+<p>The second term, δ − ω, is the <em>overshoot deficit</em>. It is the amount by which the market fails to
+satisfy the scaling law. It changes sign. At θ = 10⁻² it supplies 71% of the trade's profit, at θ = 5×10⁻³ almost none,
+and at smaller thresholds it is negative and defeats the first term outright.</p>
+
+<figure><svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" font-family="Tinos,Times New Roman,serif" font-size="11"><rect x="0" y="0" width="520" height="300" fill="#fff"/><line x1="54" y1="204.9" x2="506" y2="204.9" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="208.4" text-anchor="end" fill="#333">2</text><line x1="54" y1="128.5" x2="506" y2="128.5" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="132.0" text-anchor="end" fill="#333">2.5</text><line x1="54" y1="52.2" x2="506" y2="52.2" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="55.7" text-anchor="end" fill="#333">3</text><text x="77.8" y="281.0" text-anchor="middle" fill="#333">-3.7</text><text x="172.9" y="281.0" text-anchor="middle" fill="#333">-3.3</text><text x="244.3" y="281.0" text-anchor="middle" fill="#333">-3</text><text x="315.7" y="281.0" text-anchor="middle" fill="#333">-2.7</text><text x="410.8" y="281.0" text-anchor="middle" fill="#333">-2.3</text><text x="482.2" y="281.0" text-anchor="middle" fill="#333">-2</text><line x1="54" y1="14" x2="54" y2="266" stroke="#000" stroke-width="1"/><line x1="54" y1="266" x2="506" y2="266" stroke="#000" stroke-width="1"/><text x="280" y="296" text-anchor="middle" fill="#000">log₁₀ θ</text><text transform="translate(13,140) rotate(-90)" text-anchor="middle" fill="#000">⟨TMV⟩</text><line x1="54.0" y1="204.9" x2="506.0" y2="204.9" stroke="#000" stroke-dasharray="5 3" stroke-width="1"/><text x="351.4" y="197.9" font-style="italic">⟨TMV⟩ = 2 (GDO scaling law)</text><polyline points="78.0,37.6 172.7,114.8 244.3,150.7 315.9,174.7 410.6,204.8 445.4,219.0 482.2,235.8" fill="none" stroke="#000" stroke-width="1.4"/><circle cx="78.0" cy="37.6" r="3.6" fill="#000"/><circle cx="172.7" cy="114.8" r="3.6" fill="#000"/><circle cx="244.3" cy="150.7" r="3.6" fill="#000"/><circle cx="315.9" cy="174.7" r="3.6" fill="#000"/><circle cx="410.6" cy="204.8" r="3.6" fill="#000"/><circle cx="445.4" cy="219.0" r="3.6" fill="#000"/><circle cx="482.2" cy="235.8" r="3.6" fill="#000"/><text x="398.9" y="151.5" text-anchor="middle" font-size="9.5">crossing at θ ≈ 0.50%</text></svg>
+<figcaption><b>Figure 1.</b> Mean total-movement ⟨TMV⟩ against threshold on VN30F1M. A random walk
+satisfying the GDO relation gives ⟨TMV⟩ = 2. The measured value falls monotonically through that level
+as θ grows, crossing near θ ≈ 0.50%. Legs above the line have overshoots longer than the threshold
+(momentum is paid); legs below have overshoots that fall short (reversal is paid).</figcaption></figure>
+
+<h2>4&nbsp;&nbsp;What indexes the deficit</h2>
+<p>The obvious candidate is time scale. Median leg durations across our thresholds span 55 seconds to
+44 minutes, and ⟨ω⟩/δ falls monotonically from 1.59 to 0.80 over that range, which invites a Hurst
+interpretation: trending at short horizons, reverting at long ones.</p>
+<p>We find no evidence for it. Raw variance ratios are deflated by microstructure noise in the one-second base
+interval. Fitting Var(<em>r<sub>q</sub></em>) = A·q<sup>b</sup> + c on q ≥ 20, a noise-corrected reading of the
+variance-ratio statistic of Lo and MacKinlay [15], separates the noise floor, c = 0.0123 pt² or 0.078 points per side, from the diffusive component and yields b = 0.950, i.e.
+H = 0.475. Local slopes computed after that correction fluctuate between 0.43 and 0.53 about a mean of
+0.48, with no monotone drift across three decades (Figure 2). The comparison that decides it is at the
+two ends. At the horizon of the narrowest threshold, where ⟨ω⟩/δ = 1.59, the local exponent is 0.489; at
+the horizon of the widest, where ⟨ω⟩/δ = 0.80, it is 0.483. <em>The same exponent accompanies a twofold
+change in ⟨ω⟩/δ</em>, and at the short end the sign is the wrong way round: H sits below the martingale
+line where a Hurst account needs it above. The observed scale variation in local H does not account for
+the overshoot pattern.</p>
+
+<figure><svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" font-family="Tinos,Times New Roman,serif" font-size="11"><rect x="0" y="0" width="520" height="300" fill="#fff"/><line x1="54" y1="234.5" x2="506" y2="234.5" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="238.0" text-anchor="end" fill="#333">0.42</text><line x1="54" y1="171.5" x2="506" y2="171.5" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="175.0" text-anchor="end" fill="#333">0.46</text><line x1="54" y1="108.5" x2="506" y2="108.5" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="112.0" text-anchor="end" fill="#333">0.5</text><line x1="54" y1="45.5" x2="506" y2="45.5" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="49.0" text-anchor="end" fill="#333">0.54</text><text x="114.3" y="281.0" text-anchor="middle" fill="#333">1</text><text x="264.9" y="281.0" text-anchor="middle" fill="#333">2</text><text x="415.6" y="281.0" text-anchor="middle" fill="#333">3</text><line x1="54" y1="14" x2="54" y2="266" stroke="#000" stroke-width="1"/><line x1="54" y1="266" x2="506" y2="266" stroke="#000" stroke-width="1"/><text x="280" y="296" text-anchor="middle" fill="#000">log₁₀ horizon q (seconds)</text><text transform="translate(13,140) rotate(-90)" text-anchor="middle" fill="#000">local Hurst H</text><line x1="54.0" y1="108.5" x2="506.0" y2="108.5" stroke="#000" stroke-dasharray="5 3" stroke-width="1"/><text x="400.5" y="102.5" font-style="italic">H = 0.5 (martingale)</text><polyline points="68.9,214.8 99.7,167.7 131.4,97.4 159.6,66.9 190.4,92.5 219.6,125.2 250.3,125.6 279.5,108.3 310.3,99.1 342.9,113.0 372.8,162.1 402.6,197.7 424.2,169.0 454.1,137.7 478.5,135.0" fill="none" stroke="#000" stroke-width="1.3"/><circle cx="68.9" cy="214.8" r="2.6" fill="#000"/><circle cx="99.7" cy="167.7" r="2.6" fill="#000"/><circle cx="131.4" cy="97.4" r="2.6" fill="#000"/><circle cx="159.6" cy="66.9" r="2.6" fill="#000"/><circle cx="190.4" cy="92.5" r="2.6" fill="#000"/><circle cx="219.6" cy="125.2" r="2.6" fill="#000"/><circle cx="250.3" cy="125.6" r="2.6" fill="#000"/><circle cx="279.5" cy="108.3" r="2.6" fill="#000"/><circle cx="310.3" cy="99.1" r="2.6" fill="#000"/><circle cx="342.9" cy="113.0" r="2.6" fill="#000"/><circle cx="372.8" cy="162.1" r="2.6" fill="#000"/><circle cx="402.6" cy="197.7" r="2.6" fill="#000"/><circle cx="424.2" cy="169.0" r="2.6" fill="#000"/><circle cx="454.1" cy="137.7" r="2.6" fill="#000"/><circle cx="478.5" cy="135.0" r="2.6" fill="#000"/><text x="280.0" y="242.4" text-anchor="middle" font-size="9.5">no monotone trend: H fluctuates about 0.48</text></svg>
+<figcaption><b>Figure 2.</b> Noise-corrected local Hurst exponent against horizon. Three decades, no monotone drift, and no separation between
+the horizons of the widest and the narrowest thresholds. Whatever drives the overshoot deficit, it is not scale-dependent
+memory in the return process.</figcaption></figure>
+
+<p>The variable that does index it is δ measured against the <em>session's realised range</em>. Figure 3 is
+the result we would keep if we could keep only one. Bucketing legs by that ratio and plotting ⟨ω⟩/δ within each bucket collapses
+six thresholds spanning a twentyfold range onto a single curve. In the 0.45–0.65 band, four thresholds
+give 0.504, 0.517, 0.465 and 0.483. The spread is 0.052, across parameters differing by a factor of
+five. We searched for an artefact that would explain the collapse away and found none. Six thresholds, a
+twentyfold range, one curve. We have not seen a cleaner result on this instrument and do not expect to.</p>
+
+<figure><svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" font-family="Tinos,Times New Roman,serif" font-size="11"><rect x="0" y="0" width="520" height="300" fill="#fff"/><line x1="54" y1="231.2" x2="506" y2="231.2" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="234.7" text-anchor="end" fill="#333">0.5</text><line x1="54" y1="187.8" x2="506" y2="187.8" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="191.3" text-anchor="end" fill="#333">0.75</text><line x1="54" y1="144.3" x2="506" y2="144.3" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="147.8" text-anchor="end" fill="#333">1</text><line x1="54" y1="100.9" x2="506" y2="100.9" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="104.4" text-anchor="end" fill="#333">1.25</text><line x1="54" y1="57.4" x2="506" y2="57.4" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="60.9" text-anchor="end" fill="#333">1.5</text><line x1="54" y1="14.0" x2="506" y2="14.0" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="17.5" text-anchor="end" fill="#333">1.75</text><text x="114.3" y="281.0" text-anchor="middle" fill="#333">0.1</text><text x="189.6" y="281.0" text-anchor="middle" fill="#333">0.2</text><text x="264.9" y="281.0" text-anchor="middle" fill="#333">0.3</text><text x="340.3" y="281.0" text-anchor="middle" fill="#333">0.4</text><text x="415.6" y="281.0" text-anchor="middle" fill="#333">0.5</text><text x="490.9" y="281.0" text-anchor="middle" fill="#333">0.6</text><line x1="54" y1="14" x2="54" y2="266" stroke="#000" stroke-width="1"/><line x1="54" y1="266" x2="506" y2="266" stroke="#000" stroke-width="1"/><text x="280" y="296" text-anchor="middle" fill="#000">δ / session range</text><text transform="translate(13,140) rotate(-90)" text-anchor="middle" fill="#000">⟨ω⟩ / δ</text><line x1="54.0" y1="144.3" x2="506.0" y2="144.3" stroke="#000" stroke-width="1" stroke-dasharray="5 3"/><text x="355.3" y="138.3" fill="#000" font-style="italic">GDO scaling law: ⟨ω⟩ = δ</text><polyline points="95.4,96.3 133.1,125.4 178.3,149.6" fill="none" stroke="#444" stroke-width="1" opacity=".55"/><circle cx="95.4" cy="96.3" r="3.4" fill="#fff" stroke="#444" stroke-width="1.3"/><circle cx="133.1" cy="125.4" r="3.4" fill="#fff" stroke="#444" stroke-width="1.3"/><circle cx="178.3" cy="149.6" r="3.4" fill="#fff" stroke="#444" stroke-width="1.3"/><polyline points="95.4,99.1 133.1,117.9 178.3,139.6 242.3,159.2" fill="none" stroke="#666" stroke-width="1" opacity=".55"/><rect x="92.4" y="96.1" width="6" height="6" fill="#fff" stroke="#666" stroke-width="1.3"/><rect x="130.1" y="114.9" width="6" height="6" fill="#fff" stroke="#666" stroke-width="1.3"/><rect x="175.3" y="136.6" width="6" height="6" fill="#fff" stroke="#666" stroke-width="1.3"/><rect x="239.3" y="156.2" width="6" height="6" fill="#fff" stroke="#666" stroke-width="1.3"/><polyline points="95.4,96.9 133.1,113.8 178.3,133.4 242.3,164.0 329.0,192.3 453.3,230.5" fill="none" stroke="#111" stroke-width="1" opacity=".55"/><polygon points="95.4,93.1 92.0,99.5 98.8,99.5" fill="#fff" stroke="#111" stroke-width="1.3"/><polygon points="133.1,110.0 129.7,116.4 136.5,116.4" fill="#fff" stroke="#111" stroke-width="1.3"/><polygon points="178.3,129.6 174.9,136.0 181.7,136.0" fill="#fff" stroke="#111" stroke-width="1.3"/><polygon points="242.3,160.2 238.9,166.6 245.7,166.6" fill="#fff" stroke="#111" stroke-width="1.3"/><polygon points="329.0,188.5 325.6,194.9 332.4,194.9" fill="#fff" stroke="#111" stroke-width="1.3"/><polygon points="453.3,226.7 449.9,233.1 456.7,233.1" fill="#fff" stroke="#111" stroke-width="1.3"/><polyline points="95.4,57.3 133.1,115.0 178.3,121.3 242.3,152.3 329.0,193.7 453.3,228.3" fill="none" stroke="#333" stroke-width="1" opacity=".55"/><polygon points="95.4,53.3 98.8,57.3 95.4,61.3 92.0,57.3" fill="#fff" stroke="#333" stroke-width="1.3"/><polygon points="133.1,111.0 136.5,115.0 133.1,119.0 129.7,115.0" fill="#fff" stroke="#333" stroke-width="1.3"/><polygon points="178.3,117.3 181.7,121.3 178.3,125.3 174.9,121.3" fill="#fff" stroke="#333" stroke-width="1.3"/><polygon points="242.3,148.3 245.7,152.3 242.3,156.3 238.9,152.3" fill="#fff" stroke="#333" stroke-width="1.3"/><polygon points="329.0,189.7 332.4,193.7 329.0,197.7 325.6,193.7" fill="#fff" stroke="#333" stroke-width="1.3"/><polygon points="453.3,224.3 456.7,228.3 453.3,232.3 449.9,228.3" fill="#fff" stroke="#333" stroke-width="1.3"/><polyline points="95.4,75.0 133.1,38.9 178.3,136.3 242.3,145.5 329.0,188.5 453.3,237.3" fill="none" stroke="#555" stroke-width="1" opacity=".55"/><path d="M91.8,75.0h7.2M95.4,71.4v7.2" stroke="#555" stroke-width="1.5"/><path d="M129.5,38.9h7.2M133.1,35.3v7.2" stroke="#555" stroke-width="1.5"/><path d="M174.7,136.3h7.2M178.3,132.7v7.2" stroke="#555" stroke-width="1.5"/><path d="M238.7,145.5h7.2M242.3,141.9v7.2" stroke="#555" stroke-width="1.5"/><path d="M325.4,188.5h7.2M329.0,184.9v7.2" stroke="#555" stroke-width="1.5"/><path d="M449.7,237.3h7.2M453.3,233.7v7.2" stroke="#555" stroke-width="1.5"/><polyline points="242.3,162.7 329.0,183.7 453.3,234.2" fill="none" stroke="#222" stroke-width="1" opacity=".55"/><path d="M239.3,159.7l6,6M245.3,159.7l-6,6" stroke="#222" stroke-width="1.5"/><path d="M326.0,180.7l6,6M332.0,180.7l-6,6" stroke="#222" stroke-width="1.5"/><path d="M450.3,231.2l6,6M456.3,231.2l-6,6" stroke="#222" stroke-width="1.5"/><rect x="380" y="18" width="126" height="86" fill="#fff" stroke="#bbb" stroke-width=".7"/><text x="402" y="30" fill="#000" font-size="9.5">θ = 5e-04</text><circle cx="392.0" cy="26.5" r="3.4" fill="#fff" stroke="#444" stroke-width="1.3"/><text x="402" y="43" fill="#000" font-size="9.5">θ = 1e-03</text><rect x="389.0" y="36.5" width="6" height="6" fill="#fff" stroke="#666" stroke-width="1.3"/><text x="402" y="56" fill="#000" font-size="9.5">θ = 2e-03</text><polygon points="392.0,48.7 388.6,55.1 395.4,55.1" fill="#fff" stroke="#111" stroke-width="1.3"/><text x="402" y="69" fill="#000" font-size="9.5">θ = 5e-03</text><polygon points="392.0,61.5 395.4,65.5 392.0,69.5 388.6,65.5" fill="#fff" stroke="#333" stroke-width="1.3"/><text x="402" y="82" fill="#000" font-size="9.5">θ = 7e-03</text><path d="M388.4,78.5h7.2M392.0,74.9v7.2" stroke="#555" stroke-width="1.5"/><text x="402" y="95" fill="#000" font-size="9.5">θ = 1e-02</text><path d="M389.0,88.5l6,6M395.0,88.5l-6,6" stroke="#222" stroke-width="1.5"/></svg>
+<figcaption><b>Figure 3. The collapse.</b> ⟨ω⟩/δ against δ divided by the session's realised range, with
+each threshold plotted as a separate series. The curves lie on top of one another: θ is not the indexing variable. The relation crosses unity at δ ≈ 20% of daily range and falls to 0.5 when the threshold
+consumes half the day. The candidate mechanism is <em>spatial compression</em> — once the threshold has
+consumed a large fraction of the day's range, less distance remains for the overshoot to run. Section 8
+tests that candidate on a second market and does not support it.</figcaption></figure>
+
+<p>The collapse is visual, so we test it. Taking the cell means of Figure 3 as the unit of analysis
+(28 cells with at least 60 legs each) and fitting a two-way model in band and threshold, adding the
+<em>δ/R</em> band to a model that already contains θ gives <b>F(5,17) = 45.13, p = 3.19×10⁻⁹</b>. Adding θ to a
+model that already contains the band gives <b>F(5,17) = 2.08, p = 0.118</b>. The band explains 21.7 times
+the variance that θ does. Threshold has no detectable effect on the curve once the ratio is controlled,
+which is the collapse stated as a hypothesis test rather than as a picture. The six band means, which a
+reader can reproduce from the released extract, are 1.342, 1.243, 1.048, 0.929, 0.740 and 0.492 over
+745,658 legs. Figure 3 and this test are measured on all 1,340 sessions. The prediction confronted with withheld data in Section 5 is a
+different object: it was computed from the curve fitted through 24 April 2026 alone, so that test is
+not circular.</p>
+<p>One objection to Figure 3 deserves an answer rather than an assurance. The realised session range
+contains the leg being measured, so a large overshoot can widen R, lower δ/R, and induce a negative
+association mechanically. We pre-registered two tests of it before running either.</p>
+
+<p>The first replaces the denominator with the realised range of the <em>opposite</em> trading
+subsession. The exchange's lunch break makes the two windows disjoint, so the measured leg cannot enter
+its own denominator. The negative association survives at all six thresholds, and analysed separately by
+subsession the detached correlations retain 84% and 87% of their magnitude. Pooling the subsessions
+attenuates the relation further because morning and afternoon ranges differ systematically, and the
+detached coordinate then mixes legs whose true ratios differ; the size of that attenuation is broadly
+consistent with an errors-in-variables account. This design tests the existence of compression but
+cannot test the threshold's residual role, because δ = θ·P exactly, so a mismeasured denominator hands θ
+back explanatory power over the residual whether or not that role is real.</p>
+
+<p>The second is surgical. We recompute each leg's denominator over the same session with that leg's
+own ticks removed. Same session, same volatility, no proxy, and the only path cut is the direct one
+from ω<sub>i</sub> into R<sub>i</sub>. Its useful property is that most legs never reach the session
+high or low, so their denominator does not change at all: <b>2.7% of legs are affected</b>, and those
+are precisely the large-overshoot legs, averaging ⟨ω⟩/δ = 2.21 against 1.47 for the rest.</p>
+
+<p>The result splits cleanly, and we report both halves. <b>The threshold's residual role is unaffected and in
+fact measures smaller</b>: p<sub>θ</sub> rises from 0.118 to <b>0.555</b> and the variance ratio falls
+from 0.046 to 0.036. Removing self-inclusion does not weaken the collapse, which also explains why the
+detached design appeared to contradict it. <b>The steepness, however, is overstated by about a
+sixth</b>: the compression slope moves from −1.768 to <b>−1.454</b>, a flattening of 17.8%,
+concentrated exactly where the mechanism predicts — the deepest band moves from 0.492 to 0.633 while
+the shallowest moves only from 1.342 to 1.333. The corrected relation still spans 1.333 to 0.633 and
+still crosses unity between the same two bands.</p>
+
+<p>Stated compactly: removing the focal leg from the session range reduces the estimated compression
+slope from −1.768 to −1.454, a 17.8% attenuation, while <em>strengthening</em> rather than weakening
+the threshold's residual role, and the unity crossing is unchanged. Mechanical self-inclusion therefore
+exaggerates the magnitude of compression but does not generate the collapse. We quote the measured
+slope throughout and state this correction rather than folding it into the error bars. The figure is a
+directly measured correction for this specific intervention, not a claim to have identified every
+source of bias that might sit in Figure 3; what it rules out is the one objection that would have made
+the collapse an artefact of its own construction.</p>
+
+<p>This matters less for the slope than for what the paper actually rests on. Nothing here depends on
+the compression slope being −1.768 rather than −1.454. What has to survive is that ⟨ω⟩/δ falls as δ/R
+rises, and that the fall carries the ratio across unity, because unity is where the overshoot-deficit
+term changes sign and the trade stops being paid for momentum. Both survive the correction intact.</p>
+
+<p>The agreement tightens where it matters. Across thresholds within a band, the spread of ⟨ω⟩/δ is 0.052
+and 0.057 in the two highest ratio bands, against a range of 0.850 between bands. In the low-ratio bands
+the spread is wider, 0.24 and 0.50, the latter driven by a single cell (θ = 7×10⁻³ at ratio 0.10–0.15)
+that is visible as the outlier in Figure 3. That region is where ⟨ω⟩/δ exceeds unity and the reversal
+trade is not taken, so the dispersion there does not bear on the result.</p>
+
+<h2>5&nbsp;&nbsp;Out-of-sample validation</h2>
+<p>The evaluation window is temporal, not random: every session after 24 April 2026. The curve, its bucket
+boundaries and the threshold set were fixed on the specification window and were not revised afterwards.
+The ordering is stronger than a convention about not looking. The specification scripts were written and
+executed before the file containing the later sessions was present on the machine at all, so the
+evaluation data could not have influenced the relation by any route, deliberate or otherwise. The
+overlapping period of that file was then verified tick by tick against the existing panel before any
+result was computed: 1,012,575 matched observations, maximum absolute price difference 0.000000.</p>
+
+<p>The curve fitted on data through 24 April 2026 predicts ⟨ω⟩/δ = 0.735 for the ratio band the withheld
+window actually occupied. The realised value is <b>0.737</b>, an absolute error of 0.003, or 0.39% of the realised value. Predictions this close are usually luck and we
+would normally say so. What makes us treat this one differently is the second prediction: the same
+curve said the widest threshold would stop firing, and it did, in a way that costs us trades rather
+than flattering the result. The curve also predicted the unfavourable
+consequence correctly: at θ = 1% the threshold δ ≈ 19.7 points against a median daily range of 24.1 points,
+so the rule should almost cease to fire. It produced <b>seven legs in eighty-five sessions</b>.</p>
+
+<table>
+<caption><b>Table 1.</b> Frozen configurations on the 85 withheld sessions. Criteria were registered before the data was
+seen. Gross per turnover unit is quoted because it is measured per trade rather than per session.</caption>
+<thead><tr><th class="l">configuration</th><th>OOS gross/turn</th><th>IS gross/turn</th><th>OOS net (pts)</th><th class="l">verdict</th></tr></thead>
+<tbody>
+<tr><td class="l">Classifier + regression (M+B)</td><td>−0.217</td><td>0.817</td><td>−25.1</td><td class="l">fail</td></tr>
+<tr><td class="l">Confirmation + threshold (A+M)</td><td>0.694</td><td>0.534</td><td>+216.6</td><td class="l">pass</td></tr>
+<tr class="hl"><td class="l">DC reversal, θ = 0.5%</td><td>1.448</td><td>0.399</td><td>+298.0</td><td class="l">pass</td></tr>
+<tr class="hl"><td class="l">DC reversal, θ = 0.7%</td><td>3.117</td><td>1.130</td><td>+258.9</td><td class="l">pass</td></tr>
+</tbody></table>
+
+<p>Table 1 separates two distinct outcomes. The failing configuration does not merely fall below cost —
+its gross turns <em>negative</em>. The edge inverted rather than eroded. The two fitted-model
+configurations are described in Appendix A; the two directional-change configurations, which carry the
+argument of this paper, use no fitted model at all.</p>
+
+<h2>6&nbsp;&nbsp;Results</h2>
+<table>
+<caption><b>Table 2.</b> The directional-change constructions, ordered by Sharpe on the specification
+window of 819 sessions (2 January 2023 to 24 April 2026). None reads profit and loss in its construction.
+<em>Break-even</em> is the execution cost per leg at which net profit reaches zero, a derived quantity
+rather than an assumption. The final two columns report the 85-session evaluation window, which is
+disjoint from the specification window and was not examined during construction. A fitted classifier and
+its blend with these rules are reported in Appendix A.</caption>
+<thead><tr><th class="l">construction</th><th>trades/day</th>
+<th>Sharpe</th><th>net</th><th>Calmar</th><th>break-even</th><th>Sharpe*</th><th>net*</th></tr></thead>
+<tbody>
+<tr class="hl"><td class="l">Reversal, fixed θ = 0.7%</td><td>0.81</td><td>2.17</td><td>+1,274</td><td>6.3</td><td><b>1.13</b></td><td>6.79</td><td>+259</td></tr>
+<tr><td class="l">Reversal, θ by ⟨TMV⟩ criterion</td><td>0.67</td><td>1.95</td><td>+1,132</td><td>5.6</td><td>1.20</td><td>6.79</td><td>+259</td></tr>
+<tr><td class="l">Reversal, fixed θ = 1.0%</td><td>0.26</td><td>1.87</td><td>+851</td><td>8.2</td><td><b>2.14</b></td><td>3.56</td><td>+50</td></tr>
+</tbody></table>
+<p style="font-size:13px;color:var(--ink2);margin-top:-2px">* evaluation window, 85 sessions.</p>
+<p>Table 2 separates two windows that must not be mixed. All constructions were specified on the 819
+sessions ending 24 April 2026; the 85 sessions after that date form a disjoint window that was not
+examined during construction. The reversal rule turns over less than one round trip a day and its
+Sharpe on the specification window, 2.17, is unremarkable. That is not where its interest lies.</p>
+
+<p>We also ran the reversal rule alongside an independently fitted classifier built on the same event
+structure. The two are negatively correlated, −0.215 within the specification window and −0.331 on the
+evaluation window, and blending them improves portfolio performance materially. That construction and
+its walk-forward are reported in Appendix A rather than here, because it depends on a fitted model whose
+architecture is not the subject of this paper, and because every claim we make about the scaling relation
+stands without it.</p>
+<p>The break-even column is where it lies, because it is derived rather than assumed: it is the
+execution cost at which the rule returns exactly zero. The reversal constructions break even between
+<b>1.13 and 2.14</b> index points per leg. Every construction we built on a fitted classifier breaks even
+between 0.41 and 0.53, a threefold gap that holds whatever cost figure a reader considers realistic. A
+rule that survives an execution cost four times a liquidity taker's is a different object from one that
+needs favourable execution to exist, and the difference does not depend on which cost estimate is
+believed.</p>
+<p>Those are the operative figures for a rule whose parameters are not refitted annually. Walk-forward
+asks a different question, and we answer it separately. The protocol requires a candidate set, so we
+define one: thirty cells, five thresholds by two entry windows by three exit rules. Each fold selects
+from that set using only data preceding the test year and is scored on that year alone, so selection is
+part of what is being tested rather than a step performed before testing. Under this protocol the rule is
+charged for parameter instability in addition to everything else, and the stitched out-of-sample Sharpe
+is <b>1.79</b> at a Pardo efficiency of <b>80%</b>, with every fold positive.</p>
+
+<table>
+<caption><b>Table 3.</b> Anchored walk-forward on the reversal rule, fold by fold, with selection by
+Calmar. Each fold picks its cell from a grid of thirty — five thresholds × two entry windows × three exit
+rules — using all data preceding the test year, and is scored on that year alone. WFE is Pardo's [16]
+walk-forward efficiency, out-of-sample net per session divided by in-sample net per session. The cell
+marked <em>thin</em> was selected on training data but barely fired out of sample. Cell notation:
+θ | entry window | exit rule, where <em>09:45+</em> admits entries after 09:45 only, <em>full</em> uses
+the whole session, and <em>≤120m</em> closes the position after at most 120 minutes. The classifier and
+blended arms are in Appendix A.</caption>
+<thead><tr><th class="l">fold</th><th>train</th><th class="l">selected cell</th><th>IS Sharpe</th>
+<th>OOS Sharpe</th><th>OOS net</th><th>MDD</th><th>WFE</th></tr></thead>
+<tbody>
+<tr><td class="l">2023</td><td>436</td><td class="l" style="font-size:11px">1.0%|09:45+|≤120m</td><td>3.91</td><td>+3.99</td><td>+281</td><td>29</td><td>62%</td></tr>
+<tr><td class="l">2024</td><td>681</td><td class="l" style="font-size:11px">1.0%|09:45+|≤120m</td><td>3.83</td><td>+1.94</td><td>+61</td><td>13</td><td>15%</td></tr>
+<tr><td class="l">2025</td><td>931</td><td class="l" style="font-size:11px">1.0%|09:45+|≤120m</td><td>3.39</td><td>+1.32</td><td>+297</td><td>100</td><td>97%</td></tr>
+<tr><td class="l">2026H1</td><td>1180</td><td class="l" style="font-size:11px">1.2%|full|≤120m</td><td>2.09</td><td>+3.97</td><td>+163</td><td>10</td><td>212%</td></tr>
+<tr><td class="l">2026H2</td><td>1255</td><td class="l" style="font-size:11px">1.2%|full|≤120m <span style="font-style:italic">thin</span></td><td>2.21</td><td>+0.00</td><td>+61</td><td>0</td><td>65%</td></tr>
+<tr class="hl"><td class="l"><b>stitched</b></td><td>—</td><td class="l" style="font-size:11px">2 distinct cells across 5 folds</td><td>—</td><td><b>1.79</b></td><td><b>+863</b></td><td>100</td><td>80%</td></tr>
+</tbody></table>
+
+<figure><svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" font-family="Tinos,Times New Roman,serif" font-size="11"><rect x="0" y="0" width="520" height="300" fill="#fff"/><line x1="54" y1="266.0" x2="506" y2="266.0" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="269.5" text-anchor="end" fill="#333">0</text><line x1="54" y1="198.4" x2="506" y2="198.4" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="201.9" text-anchor="end" fill="#333">250</text><line x1="54" y1="130.8" x2="506" y2="130.8" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="134.3" text-anchor="end" fill="#333">500</text><line x1="54" y1="63.2" x2="506" y2="63.2" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="66.7" text-anchor="end" fill="#333">750</text><line x1="54" y1="-4.4" x2="506" y2="-4.4" stroke="#e2e2e2" stroke-width=".7"/><text x="48" y="-0.9" text-anchor="end" fill="#333">1000</text><line x1="54" y1="14" x2="54" y2="266" stroke="#000" stroke-width="1"/><line x1="54" y1="266" x2="506" y2="266" stroke="#000" stroke-width="1"/><text x="280" y="296" text-anchor="middle" fill="#000">trading session (out-of-sample folds only)</text><text transform="translate(13,140) rotate(-90)" text-anchor="middle" fill="#000">cumulative net (index points)</text><line x1="54.0" y1="14" x2="54.0" y2="266" stroke="#999" stroke-dasharray="3 3" stroke-width=".7"/><text x="57.0" y="260" font-size="9" fill="#555">2023</text><line x1="176.6" y1="14" x2="176.6" y2="266" stroke="#999" stroke-dasharray="3 3" stroke-width=".7"/><text x="179.6" y="260" font-size="9" fill="#555">2024</text><line x1="301.8" y1="14" x2="301.8" y2="266" stroke="#999" stroke-dasharray="3 3" stroke-width=".7"/><text x="304.8" y="260" font-size="9" fill="#555">2025</text><line x1="426.4" y1="14" x2="426.4" y2="266" stroke="#999" stroke-dasharray="3 3" stroke-width=".7"/><text x="429.4" y="260" font-size="9" fill="#555">2026H1</text><line x1="464.0" y1="14" x2="464.0" y2="266" stroke="#999" stroke-dasharray="3 3" stroke-width=".7"/><text x="467.0" y="260" font-size="9" fill="#555">2026H2</text><polyline points="54.0,266.0 54.5,266.0 55.0,266.0 55.5,266.0 56.0,266.0 56.5,263.2 57.0,263.2 57.5,263.2 58.0,263.2 58.5,263.2 59.0,263.2 59.5,263.2 60.0,263.2 60.5,263.2 61.0,263.2 61.5,260.5 62.0,256.1 62.5,252.7 63.0,252.7 63.5,252.7 64.0,252.7 64.5,248.6 65.0,248.6 65.5,248.6 66.0,249.0 66.5,249.0 67.0,249.0 67.5,249.0 68.0,246.3 68.5,246.3 69.0,246.3 69.5,243.3 70.0,243.3 70.5,243.4 71.0,239.8 71.5,239.8 72.0,239.8 72.5,238.3 73.0,238.3 73.5,238.3 74.0,235.9 74.5,235.9 75.0,235.9 75.5,235.9 76.0,235.9 76.5,235.9 77.0,235.9 77.5,235.9 78.0,235.9 78.5,235.9 79.0,234.6 79.5,234.6 80.0,234.6 80.5,234.6 81.0,234.6 81.5,234.6 82.0,234.6 82.5,234.6 83.0,234.6 83.5,234.6 84.0,234.6 84.5,234.6 85.0,234.6 85.5,234.6 86.0,234.6 86.5,234.6 87.0,234.6 87.5,234.6 88.0,234.6 88.5,234.6 89.0,234.6 89.5,234.6 90.0,234.6 90.5,234.6 91.0,234.6 91.5,234.6 92.0,234.6 92.5,234.6 93.0,234.6 93.5,234.6 94.0,234.6 94.5,234.6 95.0,234.6 95.5,234.6 96.0,234.6 96.5,234.6 97.0,234.6 97.5,234.6 98.0,234.6 98.5,234.6 99.0,234.6 99.6,234.6 100.1,234.6 100.6,234.6 101.1,234.6 101.6,234.6 102.1,234.6 102.6,234.6 103.1,234.6 103.6,234.6 104.1,234.6 104.6,234.6 105.1,234.6 105.6,234.6 106.1,234.6 106.6,234.6 107.1,234.6 107.6,234.6 108.1,234.6 108.6,234.6 109.1,234.6 109.6,234.6 110.1,234.6 110.6,234.6 111.1,234.6 111.6,234.6 112.1,234.6 112.6,234.6 113.1,234.6 113.6,234.6 114.1,234.6 114.6,234.6 115.1,234.6 115.6,234.6 116.1,234.6 116.6,234.6 117.1,234.6 117.6,234.6 118.1,234.6 118.6,234.6 119.1,234.6 119.6,234.6 120.1,234.6 120.6,234.6 121.1,234.6 121.6,234.6 122.1,234.6 122.6,234.6 123.1,234.6 123.6,234.6 124.1,234.6 124.6,234.6 125.1,234.6 125.6,234.6 126.1,234.6 126.6,234.6 127.1,231.4 127.6,231.4 128.1,231.4 128.6,231.4 129.1,231.4 129.6,231.4 130.1,228.9 130.6,231.8 131.1,225.4 131.6,225.4 132.1,225.4 132.6,225.4 133.1,225.4 133.6,225.4 134.1,225.4 134.6,225.4 135.1,225.4 135.6,225.4 136.1,225.4 136.6,225.4 137.1,225.4 137.6,222.6 138.1,218.7 138.6,218.7 139.1,218.7 139.6,215.6 140.1,215.6 140.6,215.6 141.1,214.9 141.6,214.9 142.1,212.6 142.6,209.8 143.1,207.1 143.6,207.1 144.1,207.1 144.6,204.0 145.1,204.0 145.6,204.0 146.1,204.0 146.6,204.0 147.1,204.0 147.6,204.0 148.1,204.0 148.6,204.0 149.1,204.0 149.6,204.0 150.1,204.0 150.6,204.0 151.1,204.0 151.6,198.4 152.1,195.7 152.6,195.7 153.1,189.0 153.6,187.4 154.1,187.4 154.6,183.7 155.1,183.7 155.6,183.7 156.1,183.7 156.6,183.7 157.1,183.7 157.6,183.7 158.1,183.7 158.6,183.7 159.1,183.7 159.6,183.7 160.1,183.7 160.6,183.7 161.1,191.6 161.6,191.6 162.1,191.6 162.6,190.6 163.1,190.6 163.6,189.4 164.1,189.4 164.6,189.4 165.1,189.4 165.6,189.4 166.1,189.4 166.6,189.4 167.1,189.4 167.6,189.4 168.1,190.1 168.6,190.1 169.1,190.1 169.6,190.1 170.1,190.1 170.6,190.1 171.1,190.1 171.6,190.1 172.1,190.1 172.6,190.1 173.1,190.1 173.6,190.1 174.1,190.1 174.6,190.1 175.1,190.1 175.6,190.1 176.1,190.1 176.6,190.1 177.1,190.1 177.6,190.1 178.1,190.1 178.6,190.1 179.1,190.1 179.6,190.1 180.1,190.1 180.6,190.1 181.1,190.1 181.6,190.1 182.1,190.1 182.6,190.1 183.1,190.1 183.6,190.1 184.1,190.1 184.6,190.1 185.1,190.1 185.6,190.1 186.1,190.1 186.6,190.1 187.1,190.1 187.6,190.1 188.1,190.1 188.6,190.1 189.1,190.1 189.7,190.1 190.2,190.1 190.7,190.1 191.2,190.1 191.7,190.1 192.2,190.1 192.7,190.1 193.2,190.1 193.7,190.1 194.2,190.1 194.7,190.1 195.2,190.1 195.7,190.1 196.2,190.1 196.7,190.1 197.2,190.1 197.7,190.1 198.2,187.3 198.7,187.3 199.2,187.3 199.7,187.3 200.2,187.3 200.7,185.2 201.2,188.8 201.7,188.8 202.2,188.8 202.7,188.8 203.2,188.8 203.7,188.8 204.2,188.8 204.7,188.8 205.2,188.8 205.7,188.8 206.2,188.8 206.7,188.8 207.2,188.8 207.7,188.8 208.2,188.8 208.7,188.8 209.2,188.8 209.7,188.8 210.2,188.8 210.7,188.8 211.2,188.8 211.7,186.5 212.2,186.5 212.7,181.9 213.2,181.9 213.7,181.9 214.2,181.9 214.7,181.9 215.2,181.9 215.7,181.9 216.2,181.9 216.7,181.9 217.2,181.9 217.7,181.9 218.2,181.9 218.7,181.9 219.2,181.9 219.7,181.9 220.2,181.9 220.7,181.9 221.2,181.9 221.7,181.9 222.2,181.9 222.7,181.9 223.2,181.9 223.7,181.9 224.2,181.9 224.7,181.9 225.2,181.9 225.7,178.9 226.2,178.9 226.7,178.9 227.2,178.9 227.7,178.9 228.2,178.9 228.7,178.9 229.2,178.9 229.7,178.9 230.2,178.9 230.7,178.9 231.2,178.9 231.7,178.9 232.2,178.9 232.7,178.9 233.2,178.9 233.7,178.9 234.2,178.9 234.7,178.9 235.2,176.6 235.7,176.6 236.2,176.6 236.7,176.6 237.2,176.6 237.7,176.6 238.2,176.6 238.7,176.6 239.2,176.6 239.7,176.6 240.2,176.6 240.7,176.6 241.2,176.6 241.7,176.6 242.2,176.6 242.7,176.6 243.2,176.6 243.7,176.6 244.2,176.6 244.7,176.6 245.2,176.6 245.7,176.6 246.2,176.6 246.7,176.6 247.2,176.6 247.7,176.6 248.2,176.6 248.7,176.6 249.2,176.6 249.7,176.6 250.2,176.6 250.7,176.6 251.2,176.6 251.7,176.6 252.2,176.6 252.7,176.6 253.2,176.6 253.7,176.6 254.2,176.6 254.7,176.6 255.2,176.6 255.7,176.6 256.2,176.6 256.7,176.6 257.2,176.6 257.7,176.6 258.2,176.6 258.7,176.6 259.2,176.6 259.7,176.6 260.2,176.6 260.7,176.6 261.2,176.6 261.7,176.6 262.2,176.6 262.7,176.6 263.2,176.6 263.7,176.6 264.2,176.6 264.7,176.6 265.2,176.6 265.7,176.6 266.2,176.6 266.7,176.6 267.2,176.6 267.7,176.6 268.2,176.6 268.7,176.6 269.2,176.6 269.7,176.6 270.2,176.6 270.7,176.6 271.2,176.6 271.7,176.6 272.2,176.6 272.7,176.6 273.2,176.6 273.7,176.6 274.2,176.6 274.7,176.6 275.2,176.6 275.7,176.6 276.2,176.6 276.7,176.6 277.2,176.6 277.7,176.6 278.2,176.6 278.7,176.6 279.2,176.6 279.7,176.6 280.3,176.6 280.8,176.6 281.3,176.6 281.8,176.6 282.3,176.6 282.8,176.6 283.3,176.6 283.8,176.6 284.3,176.6 284.8,176.6 285.3,176.6 285.8,173.5 286.3,173.5 286.8,173.5 287.3,173.5 287.8,173.5 288.3,173.5 288.8,173.5 289.3,173.5 289.8,173.5 290.3,173.5 290.8,173.5 291.3,173.5 291.8,173.5 292.3,173.5 292.8,173.5 293.3,173.5 293.8,173.5 294.3,173.5 294.8,173.5 295.3,173.5 295.8,173.5 296.3,173.5 296.8,173.5 297.3,173.5 297.8,173.5 298.3,173.5 298.8,173.5 299.3,173.5 299.8,173.5 300.3,173.5 300.8,173.5 301.3,173.5 301.8,173.5 302.3,173.5 302.8,173.5 303.3,173.5 303.8,173.5 304.3,173.5 304.8,173.5 305.3,173.5 305.8,173.5 306.3,173.5 306.8,173.5 307.3,173.5 307.8,173.5 308.3,173.5 308.8,173.5 309.3,173.5 309.8,173.5 310.3,173.5 310.8,173.5 311.3,173.5 311.8,173.5 312.3,173.5 312.8,173.5 313.3,173.5 313.8,173.5 314.3,173.5 314.8,173.5 315.3,173.5 315.8,173.5 316.3,173.5 316.8,173.5 317.3,173.5 317.8,173.5 318.3,173.5 318.8,173.5 319.3,173.5 319.8,173.5 320.3,173.5 320.8,173.5 321.3,173.5 321.8,173.5 322.3,173.5 322.8,173.5 323.3,173.5 323.8,173.5 324.3,173.5 324.8,173.5 325.3,173.5 325.8,173.5 326.3,173.5 326.8,173.5 327.3,173.5 327.8,173.5 328.3,173.5 328.8,173.5 329.3,173.5 329.8,173.5 330.3,173.5 330.8,173.5 331.3,173.5 331.8,173.5 332.3,173.0 332.8,177.5 333.3,182.4 333.8,182.4 334.3,182.4 334.8,182.4 335.3,182.4 335.8,182.4 336.3,182.4 336.8,182.4 337.3,182.4 337.8,190.8 338.3,189.3 338.8,189.3 339.3,189.3 339.8,189.3 340.3,189.3 340.8,189.3 341.3,189.3 341.8,189.3 342.3,189.3 342.8,189.3 343.3,185.9 343.8,185.9 344.3,185.9 344.8,185.9 345.3,185.9 345.8,185.9 346.3,185.9 346.8,185.9 347.3,185.9 347.8,185.9 348.3,185.9 348.8,185.9 349.3,185.9 349.8,185.9 350.3,185.9 350.8,185.9 351.3,185.9 351.8,185.9 352.3,185.9 352.8,185.9 353.3,185.9 353.8,185.9 354.3,185.9 354.8,185.9 355.3,183.1 355.8,183.1 356.3,183.1 356.8,183.1 357.3,183.1 357.8,183.1 358.3,183.1 358.8,183.1 359.3,183.1 359.8,183.1 360.3,183.1 360.8,183.1 361.3,183.1 361.8,183.1 362.3,183.1 362.8,183.1 363.3,183.1 363.8,183.1 364.3,183.1 364.8,137.0 365.3,137.0 365.8,137.0 366.3,137.0 366.8,137.0 367.3,137.0 367.8,133.4 368.3,133.4 368.8,133.4 369.3,133.4 369.8,129.8 370.3,129.8 370.9,129.8 371.4,124.9 371.9,126.8 372.4,121.3 372.9,121.3 373.4,121.3 373.9,140.2 374.4,138.2 374.9,135.9 375.4,133.8 375.9,133.8 376.4,133.8 376.9,136.3 377.4,136.3 377.9,136.3 378.4,136.3 378.9,136.3 379.4,138.8 379.9,138.8 380.4,148.3 380.9,148.3 381.4,148.3 381.9,147.5 382.4,148.2 382.9,148.2 383.4,144.3 383.9,139.5 384.4,139.5 384.9,132.0 385.4,127.8 385.9,127.8 386.4,127.8 386.9,123.3 387.4,123.3 387.9,123.3 388.4,123.3 388.9,123.3 389.4,123.3 389.9,128.4 390.4,128.4 390.9,124.1 391.4,124.1 391.9,124.1 392.4,124.1 392.9,120.2 393.4,120.2 393.9,120.2 394.4,120.2 394.9,116.5 395.4,116.5 395.9,116.5 396.4,116.5 396.9,116.5 397.4,116.5 397.9,116.5 398.4,116.5 398.9,116.5 399.4,116.5 399.9,131.2 400.4,138.1 400.9,140.4 401.4,140.4 401.9,141.0 402.4,131.1 402.9,130.3 403.4,130.3 403.9,130.3 404.4,121.6 404.9,109.0 405.4,105.6 405.9,105.6 406.4,103.3 406.9,105.6 407.4,105.6 407.9,98.7 408.4,98.7 408.9,98.7 409.4,98.7 409.9,98.7 410.4,98.7 410.9,98.7 411.4,98.7 411.9,98.7 412.4,98.7 412.9,98.7 413.4,98.7 413.9,98.7 414.4,98.7 414.9,98.7 415.4,98.7 415.9,98.7 416.4,98.7 416.9,98.7 417.4,98.7 417.9,97.0 418.4,97.0 418.9,97.0 419.4,97.0 419.9,97.0 420.4,92.0 420.9,92.0 421.4,92.0 421.9,92.0 422.4,92.0 422.9,92.0 423.4,92.0 423.9,92.0 424.4,98.1 424.9,98.1 425.4,93.1 425.9,93.1 426.4,93.1 426.9,93.1 427.4,93.1 427.9,93.1 428.4,93.1 428.9,93.1 429.4,93.1 429.9,93.1 430.4,88.2 430.9,88.2 431.4,88.2 431.9,88.2 432.4,88.2 432.9,88.2 433.4,88.2 433.9,88.2 434.4,88.2 434.9,80.9 435.4,80.9 435.9,80.9 436.4,82.9 436.9,82.9 437.4,82.9 437.9,82.9 438.4,82.9 438.9,82.9 439.4,83.6 439.9,83.6 440.4,83.6 440.9,83.6 441.4,83.6 441.9,83.6 442.4,83.6 442.9,83.6 443.4,83.6 443.9,83.6 444.4,83.6 444.9,72.4 445.4,72.4 445.9,72.4 446.4,60.6 446.9,61.2 447.4,61.2 447.9,61.2 448.4,61.2 448.9,61.2 449.4,61.2 449.9,57.6 450.4,57.6 450.9,57.6 451.4,48.6 451.9,48.6 452.4,48.6 452.9,48.6 453.4,48.6 453.9,48.6 454.4,48.6 454.9,48.6 455.4,48.6 455.9,48.6 456.4,48.6 456.9,48.6 457.4,48.6 457.9,48.6 458.4,48.6 458.9,48.6 459.4,48.6 459.9,48.6 460.4,48.6 461.0,48.6 461.5,48.6 462.0,48.6 462.5,48.6 463.0,49.1 463.5,49.1 464.0,49.1 464.5,49.1 465.0,49.1 465.5,49.1 466.0,49.1 466.5,49.1 467.0,49.1 467.5,49.1 468.0,49.1 468.5,49.1 469.0,49.1 469.5,49.1 470.0,49.1 470.5,49.1 471.0,44.2 471.5,44.2 472.0,44.2 472.5,44.2 473.0,44.2 473.5,44.2 474.0,44.2 474.5,44.2 475.0,44.2 475.5,44.2 476.0,44.2 476.5,44.2 477.0,44.2 477.5,44.2 478.0,44.2 478.5,44.2 479.0,44.2 479.5,44.2 480.0,44.2 480.5,44.2 481.0,44.2 481.5,44.2 482.0,44.2 482.5,44.2 483.0,44.2 483.5,44.2 484.0,44.2 484.5,44.2 485.0,44.2 485.5,44.2 486.0,44.2 486.5,44.2 487.0,44.2 487.5,44.2 488.0,44.2 488.5,44.2 489.0,44.2 489.5,44.2 490.0,44.2 490.5,38.1 491.0,38.1 491.5,38.1 492.0,38.1 492.5,38.1 493.0,38.1 493.5,38.1 494.0,32.7 494.5,32.7 495.0,32.7 495.5,32.7 496.0,32.7 496.5,32.7 497.0,32.7 497.5,32.7 498.0,32.7 498.5,32.7 499.0,32.7 499.5,32.7 500.0,32.7 500.5,32.7 501.0,32.7 501.5,32.7 502.0,32.7 502.5,32.7 503.0,32.7 503.5,32.7 504.0,32.7 504.5,32.7 505.0,32.7 505.5,32.7 506.0,32.7" fill="none" stroke="#000" stroke-width="1.3"/></svg>
+<figcaption><b>Figure 4.</b> Stitched out-of-sample equity for the reversal rule, comprising only test
+folds. Vertical rules mark fold boundaries. Every fold is positive; the weakest, 2024, is where the
+method is genuinely tested, and the strongest are periods in which the entire parameter grid improved.</figcaption></figure>
+
+<p>The aggregate efficiency of 80% clears Pardo's 50% threshold, but per-fold efficiency is where the
+honest cost of annual reselection shows: the rule spans 15% to 212%, and its weakest fold, 2024, retains
+under a sixth of its in-sample rate while still finishing positive. Two distinct cells were selected
+across five folds, which is the kind of stability we would want and did not design for. We report the
+range rather than the aggregate because a reader deciding whether to trade this would care about the bad
+fold, not the average one.</p>
+
+<p>Table 4 gives the cost sensitivity promised in Section 2.2. The reversal rule, which fits nothing, is
+still positive at 1.00 index points per leg. Every construction in this study that uses a fitted model
+turns negative somewhere between 0.40 and 0.60. Whatever a reader believes about execution quality on
+this contract, that ordering does not change, and it is the reason the rest of this paper is about the
+rule that fits nothing.</p>
+<table>
+<caption><b>Table 4.</b> Net profit in index points over the combined specification and evaluation
+history, as a function of cost per leg. Column 0.2965 is the Roll/Corwin–Schultz taker estimate; 0.175 is
+the measured execution benchmark of Section 2.2. The reversal rule remains profitable at 1.00 per leg,
+roughly three and a half times the taker figure. Constructions that use the fitted classifier turn
+negative between 0.40 and 0.60 and are tabulated in Appendix A.</caption>
+<thead><tr><th class="l">cost per leg →</th><th>0</th><th>0.0875</th><th>0.175</th><th>0.2965</th><th>0.4</th><th>0.6</th><th>1.00</th></tr></thead>
+<tbody>
+<tr class="hl"><td class="l">Reversal rule, θ = 0.7%</td><td>+1,781</td><td>+1,657</td><td>+1,533</td><td>+1,360</td><td>+1,213</td><td>+928</td><td><b>+359</b></td></tr>
+<tr><td class="l">Reversal, causal θ</td><td>+1,599</td><td>+1,495</td><td>+1,391</td><td>+1,247</td><td>+1,124</td><td>+886</td><td><b>+411</b></td></tr>
+</tbody></table>
+
+<h2>7&nbsp;&nbsp;An information constraint on the scaling relation</h2>
+<p>Section 4 identifies the indexing variable, which suggests an obvious improvement: set the threshold
+each day so that δ is a fixed fraction of the session's range. Estimating that range causally from the
+trailing twenty-session median, this <em>underperforms a fixed threshold on every metric</em> — Sharpe
+falls to 2.00 from 2.59, gross per turn to 0.657 from 1.242, and maximum drawdown roughly doubles.</p>
+
+<p>That result is easy to over-read. It fuses two quite different failures: the range may be
+unpredictable, or it may be perfectly predictable and still useless as a control input. We separated
+them. The answer is the second, and it is more interesting than the first.</p>
+
+<p>The question is adjacent to, but not the same as, nowcasting a directional change before its
+confirmation [10]. That literature asks whether the event can be seen coming. We ask whether the state
+variable the event lives in can be estimated well enough to set the threshold that defines the event,
+which is a control problem rather than a prediction problem, and the two have different answers.</p>
+
+<p><b>The range is partly predictable.</b> Refitting before every session on strictly prior sessions
+only, a log-regression of the full-session range on the elapsed range and the trailing twenty-session
+median reaches a rank correlation of 0.695 and an out-of-sample R² in logs of 0.460 by 09:45, and 0.759
+and 0.563 by 10:30, on the 1,200 sessions that carry a causal estimate at both times. The adaptive rule that failed was working
+with about half the information available to it.</p>
+
+<p><b>Prediction is nevertheless the wrong target.</b> A threshold rule does not need the range; it needs
+to know which side of the unity crossing the session will fall on. That is a classification problem, and
+an easier one. Binning legs by the <em>estimated</em> ratio rather than the realised one, and counting only
+legs entered after the estimate is formed, the picture changes sharply with the hour. At 09:45 the
+estimated bands are not even ordered correctly, and the bucket the estimate labels as the fade zone
+realises ⟨ω⟩/δ = 1.059 — the wrong side of unity, so the label is worse than useless. At 10:30 the
+estimated bands are monotone and that same bucket realises 0.937, capturing 80.6% of the distance between
+no conditioning at all (1.492) and the ceiling set by ex-post labels (0.803). The state variable becomes
+readable roughly seventy-five minutes into the session, and not before.</p>
+
+<p><b>Better observation does not produce better control.</b> We pre-registered the resulting rule before
+computing anything: decision time 10:30, δ* = 0.32·R̂ with R̂ from the model above, θ* = δ*/P, state reset
+at the decision time, trading only afterwards, one-second execution delay, and the identical treatment
+applied to fixed-threshold comparators. It was run once. The adaptive rule loses on every axis, including
+the mechanism diagnostic it was built to exploit (Table 5). It remains profitable in each of the six
+calendar years and beats four of the six fixed thresholds; it simply loses to the two a constant choice
+would have found. Because this evaluation uses the full history rather than the withheld window, we
+report it as a locked historical evaluation and not as an out-of-sample test.</p>
+
+<table>
+<caption><b>Table 5.</b> Causal threshold control against fixed thresholds, 1,200 sessions. All arms reset
+their directional-change state at 10:30 and trade only afterwards, so the comparison isolates the choice
+of threshold. The adaptive arm sets θ from an estimate formed at 10:30 from prior sessions only; the fixed
+arms are granted hindsight in choosing their own threshold. <em>Break-even</em> is the execution cost per
+leg at which net profit reaches zero.</caption>
+<thead><tr><th class="l">threshold rule</th><th>net (pts)</th><th>Sharpe</th><th>max DD</th>
+<th>break-even</th><th>round trips</th><th>⟨ω⟩/δ</th></tr></thead>
+<tbody>
+<tr><td class="l">Adaptive, θ* = 0.32·R̂/P at 10:30</td><td>+1,194</td><td>1.53</td><td>189</td><td>0.483</td><td>1,940</td><td>0.936</td></tr>
+<tr class="hl"><td class="l">Fixed, θ = 0.7%</td><td>+1,583</td><td>2.35</td><td>104</td><td>1.110</td><td>847</td><td>0.837</td></tr>
+<tr><td class="l">Fixed, θ = 1.0%</td><td>+1,290</td><td>2.27</td><td>70</td><td>2.311</td><td>302</td><td>0.717</td></tr>
+<tr><td class="l">Fixed, θ = 0.5%</td><td>+708</td><td>0.90</td><td>379</td><td>0.363</td><td>1,882</td><td>0.978</td></tr>
+<tr><td class="l">Fixed, θ = 0.2%</td><td>−7,451</td><td>−5.55</td><td>7,455</td><td>−0.104</td><td>13,360</td><td>1.184</td></tr>
+<tr><td class="l">Fixed, θ = 0.1%</td><td>−28,181</td><td>−11.28</td><td>28,185</td><td>−0.156</td><td>42,574</td><td>1.359</td></tr>
+<tr><td class="l">Fixed, θ = 0.05%</td><td>−71,839</td><td>−15.14</td><td>71,828</td><td>−0.143</td><td>112,863</td><td>1.598</td></tr>
+</tbody></table>
+
+<p>The constraint is therefore sharper than the one we originally stated. It is not that the state
+variable is unobservable during the session — by mid-morning it is largely observable. It is that
+observing it well enough to classify the regime is not the same as observing it well enough to steer a
+threshold, and the gap between those two standards is where the benefit dies.</p>
+
+<p><b>The relation nonetheless carries economic content.</b> Read Table 5 down its last two columns. Across
+six thresholds spanning a twentyfold range, the realised ⟨ω⟩/δ predicts the break-even cost with a rank
+correlation of −0.943 (p = 0.005). Unity is the zero of the overshoot-deficit term, not of the trade:
+by equation (1) the discretisation term r − δ stays positive there, so at ⟨ω⟩/δ = 1 the rule still breaks
+even at +0.31 points per leg, and break-even reaches zero only at ⟨ω⟩/δ ≈ 1.14. That gap is the
+discretisation cushion of Section 3 expressed in cost, and it is the reason the two crossings do not
+coincide. The scaling departure is not a descriptive statistic that happens to accompany a profitable
+rule: it orders the profitability of six independently constructed rules that were never fitted to each
+other. What it does not do is supply a
+steering input.</p>
+
+<p>The failure of the adaptive rule also cautions against assuming that normalisation by a
+contemporaneous scale estimate necessarily improves a fixed-threshold decision rule. Our prior on
+adaptive thresholds is now low enough that we would want a strong argument before testing another.</p>
+
+<h2>8&nbsp;&nbsp;External replication on a second market</h2>
+<p>Section 4 identifies a candidate mechanism by elimination. Elimination is not evidence, so we
+pre-registered a direct test of it, hashed each document and anchored it in the Bitcoin blockchain
+before the work it governs was run, and executed the analysis once.</p>
+
+<p>The instrument is a Hong Kong index feed over the identical window, 25 February 2021 to 26 August
+2026, giving 63,154,002 valid quotes, with no missing quote-bearing interval. The design varies the price
+window while holding instrument, feed and tick generation constant: the <em>full tradable window</em>,
+the <em>regular day session</em>, and the <em>morning and afternoon sub-sessions</em> taken separately.
+If finite available price space drives the relation, compression should strengthen monotonically as the
+window narrows.</p>
+
+<p><b>Chronology, disclosed.</b> Roughly 60% of the sample was inspected while acquisition was still
+running, first under an implementation later found to group observations by calendar date rather than
+by the tradable window, which crosses midnight, and again after that defect was corrected. The
+correction was registered, hashed and timestamped before any corrected statistic existed. Everything
+after 26 June 2024 was never examined until the single execution reported here and is reported first.
+The full-sample figures are therefore a pre-registered analysis with an interim inspection of
+approximately 60% of the sample, not a blinded confirmatory result. The held-back period carries no
+such qualification.</p>
+
+<table>
+<caption><b>Table 6.</b> Pre-registered external test, held-back period only: 27 June 2024 to 26 August
+2026, never examined before this execution. Criteria were fixed in advance and were not altered after
+the interim inspection. <em>Crossing</em> is the interpolated δ/R at which ⟨ω⟩/δ = 1, against a
+registered window of [0.15, 0.30] and a discovery-market value near 0.20.</caption>
+<thead><tr><th class="l">price window</th><th>legs</th><th>cells</th><th>band effect</th>
+<th>crossing</th><th>β<sub>C</sub></th></tr></thead>
+<tbody>
+<tr><td class="l">full tradable window</td><td>291,255</td><td>24</td><td>F(5,13) = 244.8</td><td><b>0.218</b></td><td>−1.391</td></tr>
+<tr class="hl"><td class="l">regular day session</td><td>195,442</td><td>20</td><td>F(5,10) = 37.7</td><td><b>0.226</b></td><td>−1.534</td></tr>
+<tr><td class="l">sub-sessions</td><td>192,676</td><td>23</td><td>F(5,13) = 82.0</td><td><b>0.210</b></td><td>−1.372</td></tr>
+</tbody></table>
+
+<p><b>The relation replicates.</b> Monotonicity was present under all three window definitions in the
+untouched holdout and remained present in the full-sample estimates, with band effects between
+F = 37.7 and F = 244.8. The two layers are not independent — the full sample contains the holdout — so
+the holdout carries the evidential weight and the full sample confirms nothing beyond it. What we report is therefore a <em>cross-market conditional scaling relation indexed by
+δ/R</em>, and not a phenomenon of one contract.</p>
+
+<p>The Hang Seng has been examined in this framework before. Ao and Tsang [5] report an average
+overshoot length of 0.996 times the threshold on daily closing indices — the unconditional law, holding
+almost exactly. Our measurement does not contradict theirs. It asks a different question of the same
+market: conditioned on δ/R, the same ratio runs from 1.15 to 0.50, and an unconditional average taken
+across that range would land near unity by construction. An average that holds is not evidence that the
+quantity being averaged is constant.</p>
+
+<p><b>The crossing is the striking result.</b> In the untouched Hong Kong holdout the estimated unity
+crossings were <b>0.218, 0.226 and 0.210</b> across the three window definitions, against approximately
+<b>0.20</b> on VN30F1M. Despite differences in instrument construction, price level, currency, trading
+population and observation type, the economic boundary occurs at a remarkably similar fraction of the
+realised price range. We did not expect agreement this close and we report it without embellishment: the
+registered acceptance window was [0.15, 0.30], and five of the six Hong Kong estimates fall between 0.21
+and 0.23.</p>
+
+<p><b>The threshold retains a small residual role.</b> The significance condition on θ fails at every
+window definition in both layers, with p<sub>θ</sub> below 0.001 in three cases and between 0.006 and
+0.033 in the others. All three pre-registered magnitude conditions pass everywhere: the band effect is
+significant at p &lt; 0.01 in every case; the θ sum of squares is between 3.6% and 15.0% of the band sum
+of squares against a 35% ceiling; and the within-band spread is between 19.4% and 29.8% of the
+between-band range against a 40% ceiling. The registered formulation is the accurate one:
+<b>conditioning on δ/R absorbs most, but not all, of the threshold dependence.</b> With two to three
+times the leg count of the discovery market, a small residual effect becomes detectable; that is why the
+magnitude conditions were written into the protocol before any of this was measured.</p>
+
+<p><b>The mechanism prediction fails.</b> Compression was predicted to strengthen monotonically as the
+window narrowed. It does not.</p>
+
+<table>
+<caption><b>Table 7.</b> Compression slope by price window. The prediction registered in advance was
+β<sub>C</sub>(sub-session) &lt; β<sub>C</sub>(day) &lt; β<sub>C</sub>(full window). Monotonicity is what
+was predicted and monotonicity is what fails, in both layers and in the same direction.</caption>
+<thead><tr><th class="l">layer</th><th>full tradable window</th><th>regular day session</th><th>sub-sessions</th><th class="l">predicted order</th></tr></thead>
+<tbody>
+<tr><td class="l">held-back period</td><td>−1.391</td><td>−1.534</td><td>−1.372</td><td class="l">not obtained</td></tr>
+<tr><td class="l">full sample</td><td>−1.424</td><td>−1.510</td><td>−1.488</td><td class="l">not obtained</td></tr>
+</tbody></table>
+
+<p>Compression does strengthen from the full tradable window to the regular day session, which is the
+direction the account predicts. But it weakens again at the sub-session level, and that reversal
+replicated in the untouched holdout rather than appearing only in the portion we had already seen. A
+prediction that was specific enough to be wrong was wrong.</p>
+
+<p>The reversal at the sub-session level may reflect the simultaneous increase in boundary truncation
+and in directional-change state resets when windows are shortened, both of which were named as
+limitations in the protocol before the analysis they govern was executed and before any Hong Kong
+outcome was inspected. Distinguishing those effects from available price
+space requires a separate design and is left for future work. We are not going to test additional
+explanations against the same data until one of them survives.</p>
+
+<p><b>Limitation.</b> The Hong Kong observations are broker bid–ask quotes represented by their
+midpoint, not exchange transaction prices. The result therefore constitutes cross-market, cross-feed
+replication, and not exchange-level replication. That restriction was written into the protocol before
+any result existed, and it applies to the favourable findings above exactly as it applies to the
+unfavourable one.</p>
+
+<p><b>Where this leaves the mechanism.</b> The conditional overshoot relation is robust, but its
+mechanism remains unresolved. A pre-registered window-compression test did not support the predicted
+monotonic strengthening of compression as the available price window narrowed. Although compression
+strengthened from the full tradable window to the regular day session, it weakened again at the
+sub-session level, a pattern that replicated in the untouched holdout period. Finite-session spatial
+compression therefore remains a plausible contributor, but cannot account for the observed relation on
+its own.</p>
+
+<h2>9&nbsp;&nbsp;What does not work</h2>
+<p>Section 4 finds no evidence for a Hurst-based account, while Sections 7 and 8 show that causal
+normalisation and the pre-registered spatial-compression mechanism do not explain the relation. This
+section records additional alternatives that we tested and that did not improve the explanation.
+These are negative results rather than exhaustive exclusions; the mechanism remains unresolved.</p>
+<p><em>Volume, five independent routes.</em> Five distinct hypotheses about volume, each with a different mechanism and a different test. As additional model features, twenty-three OHLCV columns moved
+holdout AUC from 0.8088 to 0.8081 and were redundant with an existing magnitude regressor (ρ = 0.636).
+As a per-leg Kyle-lambda, |TMV| divided by absolute flow was beaten by 1/T alone (0.1204 against 0.1019),
+with residual correlation of 1.3 standard errors after removing the duration component. Volume asymmetry
+around the extreme changed sign between flow and volume denominators. Flow intensity did survive both a
+partial-correlation test at 13.1 standard errors and an economic floor, but as a causal gate on the
+reversal rule it was indistinguishable from a random gate at matched retention (p = 0.14–0.87), and every
+gated variant had lower net than no gate. On this instrument, at the DC-leg level, every volume aggregate
+reduces to duration: the information sits in <em>when</em> rather than <em>how much</em>. Within the leg-level aggregates tested here, volume adds little beyond duration, and we no longer
+test it on this instrument.</p>
+
+<p><em>Others.</em> A Hurst account of the deficit (Section 4); adaptive thresholds (Section 7); a nested
+multi-threshold alignment filter; classical oscillator constructions applied to the model's probability
+output, which occupy the bottom of every ranking we produce.</p>
+
+<h2>10&nbsp;&nbsp;Measurement pitfalls</h2>
+<p>Three traps produced spurious results during this work. Each is invisible in summary statistics and
+each survives ordinary code review. They are documented here because they are the reason the results
+above can be relied on.</p>
+<p><em>Position-grammar defect.</em> Our execution layer treats a signal of zero as <em>hold</em> rather than
+<em>flat</em>, forward-filling the previous position. Because 19.3% of legs are dropped by causality filters,
+this carried stale positions across the gaps. An early version of the reversal backtest reported a Sharpe ratio of 3.40. An audit showed that <b>37.3% of its gross came from ticks belonging to no trade at
+all</b>, carried there by the forward fill.
+With a correct flat-between grammar every momentum variant dies and only the reversal survives. For
+event-segment strategies, position arrays should be constructed explicitly, with an assertion that exposure
+equals signal coverage.</p>
+<p><em>Unit substitution in a ratio.</em> The compression ratio computed per session is 0.82; computed per leg
+it is 0.34. Narrow-range days produce no legs at all, so the leg sample self-selects onto wide-range days.
+A monitor built on the session-level statistic would have been indexed against a curve built on the
+leg-level one.</p>
+<p><em>Cost model as a verdict switch.</em> The same reversal rule reads as "at breakeven" under a
+market-taker cost estimate and as clearly profitable under the measured execution cost. No line of strategy
+code differs between the two readings.</p>
+
+<h2>11&nbsp;&nbsp;Conclusion</h2>
+<p>The GDO scaling law fixes the zero-profit benchmark for the canonical directional-change round trip.
+On VN30F1M the market departs from that benchmark systematically, and the departure is indexed by the
+threshold's size relative to the session's range rather than by the threshold itself or by
+scale-dependent memory: six thresholds spanning a twentyfold range collapse onto one curve in that
+coordinate. The relation predicted a withheld window to within 0.003, including which
+configuration would nearly cease to be tradeable. That departure is not a curiosity about the law. Measured
+after cost and under walk-forward, it is the edge.</p>
+<p>The rule that falls out of this selects its threshold by a criterion that never reads profit and
+loss, and it breaks even at 1.13 index points per leg. No construction we built on a fitted classifier
+reaches half that figure, and that property is what makes the rule deployable. Under walk-forward, with
+the threshold and holding rule reselected annually from preceding data alone, it returns a stitched
+out-of-sample Sharpe of 1.79 at a Pardo efficiency of 80%, positive in every fold. Those are smaller
+numbers than a blended construction produces, and we report them because they belong to the object this
+paper is about.</p>
+<p>The relation is not confined to the instrument it was found on. A pre-registered test on a second
+market and a different feed reproduces it at every window definition, and puts the unity crossing at
+0.21 to 0.23 against 0.20 here, on a market at approximately 16.5 times the price level with a different tick size,
+currency and participant population. What that test does not reproduce is our explanation of it.
+Compression was predicted to strengthen monotonically as the available price window narrowed; it
+strengthens from the full tradable window to the day session and then weakens again, and the reversal
+replicated in a holdout we had never looked at. We report a cross-market conditional scaling relation
+indexed by δ/R whose mechanism is unresolved, and we would rather say that than defend a mechanism our
+own test declined to support.</p>
+
+<p>The relation is descriptive, and the rule derived from it trades, but the relation cannot be used as a
+control input — and the reason is not the one we expected. The state variable is not hidden until the close.
+By mid-morning it is estimated well enough to classify the regime correctly, and we show the hour at which
+that becomes true. A pre-registered rule built on that estimate still loses to a constant threshold on every
+metric we registered. The binding constraint is the gap between classifying a regime and steering on it, and
+that gap is measurable rather than rhetorical. We regard this as an information constraint rather than a
+shortfall, and we suspect it is more common than the literature admits: a fair number of published mechanisms
+are likely unexploitable for exactly this reason, without anyone having checked. What the relation does supply
+is a kill condition, and now also a price. Realised ⟨ω⟩/δ tracks break-even cost across six thresholds at a
+rank correlation of −0.943. The overshoot-deficit term changes sign at unity, while total break-even
+cost reaches zero only near ⟨ω⟩/δ ≈ 1.14, because of the discretisation cushion. We know the ratio at which this
+edge stops working, we can measure that ratio daily, and we know how far the market must move to reach it.</p>
+
+<h2>12&nbsp;&nbsp;Data and code availability</h2>
+<p>A public repository carries the manuscript, the directional-change implementation, the analysis code
+for every result reported here, all pre-registration documents with their timestamp proofs, and a
+leg-level extract sufficient to rebuild Figure 3, the two-way analysis, the compression slope and the
+unity crossing from scratch in a few seconds.</p>
+
+<p><b>What the extract contains, and why.</b> It reports each leg as dimensionless quantities only:
+threshold, session date, direction, δ/R, ω/δ, r/δ and duration. It does <em>not</em> report δ, ω, r or
+the session range in index points. That is deliberate rather than incidental. Because δ = θ·P, publishing
+δ alongside θ would permit reconstruction of the underlying price at every directional-change extreme, at
+roughly one-minute resolution across the whole sample — a derived form of licensed tick data we are not
+free to redistribute. The dimensionless extract reproduces every claim this paper makes about the scaling
+relation and reconstructs no price.</p>
+
+<p><b>Economic results.</b> Profit figures cannot be recomputed from that extract, for the same reason,
+so they are published instead as frozen aggregates: per-construction statistics, the walk-forward folds
+and their stitched result, the cost-sensitivity grid, the causal threshold-control arms, and the
+out-of-sample equity series plotted in Figure 4. Each of these is a profit-and-loss difference and none
+permits recovery of a price level. Raw VN30F1M tick data, and any price-reconstructable derivative of it,
+are available under a data-access arrangement consistent with the underlying licence rather than by
+public download.</p>
+
+<p>The Hong Kong arm carries no such restriction. Its data source is free and public, so nothing
+there is withheld. The leg extract underlying Section 8 is released in full, with a script that
+rebuilds Tables 6 and 7 from it in seconds; and for a reader who wants leg construction checked
+as well, the acquisition script is included and reproduces the analysis end to end from the
+quotes.</p>
+
+<p><b>Code and replication materials.</b> The manuscript, the analysis code, the pre-registration records with their timestamp proofs, and the released replication extracts are available at <a href="https://github.com/son-d0/overshoot-deficit">https://github.com/son-d0/overshoot-deficit</a>, release <code>v1.0</code>. An archived snapshot of that release is available through Zenodo at <a href="https://doi.org/10.5281/zenodo.22227011">10.5281/zenodo.22227011</a>. The repository documents which results are directly reproducible from the released data and which require the licensed VN30F1M tick panel.</p>
+
+<p>We make this available because the claims here are of a kind that should not be taken on trust. The
+collapse in Figure 3 is either present in the data or it is not; the prediction in Section 5 either lands
+within 0.003 of the realised value or it does not. Both are cheap to check and we would rather they were
+checked.</p>
+
+<h2>AI use disclosure</h2>
+<p>Generative AI tools, including Claude Opus 5 (Anthropic), used through Claude Code, and
+OpenAI ChatGPT (GPT-5.6 family; model configurations varied across sessions), were used for
+language editing, drafting and implementing analysis code and pre-registration materials,
+methodological exploration, literature organisation, and quality-control checks. The author
+independently reviewed and verified the originality and accuracy of the manuscript, the analyses, the
+reported results and the references; confirmed that the tools were used under terms suitable for this
+work; determined the final research design and the pre-registered decision criteria; and takes full
+responsibility for the integrity of the manuscript.</p>
+
+<h2>Appendix A&nbsp;&nbsp;The fitted classifier and the blended construction</h2>
+<p>This appendix records the fitted-model arm of the study. It is here rather than in the main text
+because the paper's subject is the scaling relation and the parameter-free rule that follows from it, and
+because every claim about that relation stands whether or not this arm exists. It is reported rather than
+dropped because it produced the largest economic figures in the study and omitting it would flatter the
+main text by selection.</p>
+
+<p><b>The model.</b> A gradient-boosted classifier is fitted on directional-change events. The unit of
+observation is a confirmed leg; the label is whether the leg's remaining travel exceeds a threshold; the
+features are the event-level quantities of Section 3 — total movement, overshoot, duration, and their
+recent history. The fitted sleeve additionally uses contemporaneous event-window covariates, including
+aggregated order-flow measures. <b>These variables are used only by the ancillary classifier reported in
+this appendix and do not enter the directional-change relation, the reversal rule, or the Hong Kong
+replication.</b> The model's output, written <em>p</em> throughout, is the predicted probability for the
+leg in progress, available at the confirmation tick and not before. It is fitted on the specification
+window only.</p>
+
+<p><b>V4 Label permutation.</b> Shuffling the targets five times collapses holdout AUC to
+<b>0.4995–0.5002</b> and net profit to between −40 and −130 points. The pipeline extracts nothing from
+noise.</p>
+
+<p><b>V5 Planted leak.</b> Granting the model one tick of future information makes it outperform the
+honest version, <b>+369 against +326</b>. This is the check we consider decisive, because it establishes
+that V1 through V4 have the power to detect what they are testing for.</p>
+
+<table>
+<caption><b>Table A1.</b> Constructions driven by the fitted probability <em>p</em>, and blends of those
+with the reversal rule, on the same two windows as Table 2. Compare the break-even column with the 1.13
+to 2.14 of the parameter-free rules.</caption>
+<thead><tr><th class="l">construction</th><th class="l">source</th><th>trades/day</th>
+<th>Sharpe</th><th>net</th><th>Calmar</th><th>break-even</th><th>Sharpe*</th><th>net*</th></tr></thead>
+<tbody>
+<tr><td class="l">Blend, unit weight</td><td class="l">p + DC</td><td>3.70</td><td>3.50</td><td>+3,669</td><td>16.9</td><td>0.78</td><td>5.05</td><td>+451</td></tr>
+<tr><td class="l">Blend, half weight</td><td class="l">p + DC</td><td>3.16</td><td>3.50</td><td>+2,607</td><td>26.4</td><td>0.68</td><td>3.41</td><td>+296</td></tr>
+<tr><td class="l">Confirmation + threshold</td><td class="l">p only</td><td>2.62</td><td>2.34</td><td>+1,544</td><td>14.7</td><td>0.53</td><td>1.59</td><td>+142</td></tr>
+<tr><td class="l">Confirmation + threshold + regression</td><td class="l">p only</td><td>2.51</td><td>2.23</td><td>+1,471</td><td>14.0</td><td>0.53</td><td>1.79</td><td>+156</td></tr>
+<tr><td class="l">Time confirmation, 15 min</td><td class="l">p only</td><td>2.74</td><td>2.15</td><td>+1,440</td><td>9.4</td><td>0.50</td><td>1.59</td><td>+142</td></tr>
+<tr><td class="l">Confirmation + regression</td><td class="l">p only</td><td>2.51</td><td>2.08</td><td>+1,382</td><td>9.1</td><td>0.51</td><td>1.64</td><td>+143</td></tr>
+<tr><td class="l">Time confirmation, 10 min</td><td class="l">p only</td><td>3.58</td><td>1.98</td><td>+1,397</td><td>10.5</td><td>0.41</td><td>2.56</td><td>+217</td></tr>
+</tbody></table>
+<p style="font-size:11px">* evaluation window, 85 sessions.</p>
+
+<p>Held at fixed parameters the blend returns a Sharpe of 3.50 on the specification window and 3.41 on
+the evaluation window. The gain is not signal quality: the two sleeves correlate −0.215 in sample and
+−0.331 out of sample, and the entire improvement is diversification between a fitted model and a rule
+with no parameters at all.</p>
+
+<table>
+<caption><b>Table A2.</b> Anchored walk-forward, all three arms, selection by Calmar. The candidate set is
+135 classifier cells, 30 reversal cells, and their combinations under six blend weights. The reversal arm
+is reproduced from Table 3 for comparison.</caption>
+<thead><tr><th class="l">arm</th><th>stitched OOS Sharpe</th><th>net</th><th>max DD</th><th>WFE</th><th>distinct cells</th></tr></thead>
+<tbody>
+<tr><td class="l">Classifier alone</td><td>1.66</td><td>+1,294</td><td>135</td><td>108%</td><td>3</td></tr>
+<tr><td class="l">Reversal alone</td><td>1.79</td><td>+863</td><td>100</td><td>80%</td><td>2</td></tr>
+<tr><td class="l">Blend</td><td>2.27</td><td>+2,373</td><td>224</td><td>94%</td><td>5</td></tr>
+</tbody></table>
+
+<p>The blend beats both sleeves on net in every fold, but not on drawdown: its stitched maximum drawdown
+of 224 points exceeds the classifier's 135, and the excess sits in the 2025 fold. All three aggregate
+efficiencies clear Pardo's 50% threshold. Per-fold efficiency is where annual reselection is paid for:
+the blend spans 29% to 154%.</p>
+
+<table>
+<caption><b>Table A3.</b> Cost sensitivity of the fitted-model constructions, over the combined
+specification and evaluation history, completing Table 4.</caption>
+<thead><tr><th class="l">cost per leg →</th><th>0</th><th>0.0875</th><th>0.175</th><th>0.2965</th><th>0.4</th><th>0.6</th><th>1.00</th></tr></thead>
+<tbody>
+<tr><td class="l">Blend (unit weight)</td><td>+5,276</td><td>+4,698</td><td>+4,120</td><td>+3,317</td><td>+2,633</td><td>+1,312</td><td>−1,330</td></tr>
+<tr><td class="l">Blend (half weight)</td><td>+3,896</td><td>+3,399</td><td>+2,903</td><td>+2,214</td><td>+1,627</td><td>+492</td><td>−1,776</td></tr>
+<tr><td class="l">Classifier (A+M)</td><td>+2,515</td><td>+2,101</td><td>+1,686</td><td>+1,111</td><td>+620</td><td>−327</td><td>−2,223</td></tr>
+<tr><td class="l">Classifier + regression</td><td>+2,422</td><td>+2,025</td><td>+1,627</td><td>+1,075</td><td>+605</td><td>−304</td><td>−2,122</td></tr>
+</tbody></table>
+
+<p>The pattern that matters is the last column. Every construction that uses the fitted model is
+under water at 1.00 per leg; both parameter-free constructions are still positive. That is the ordering
+the main text relies on, and it is why the classifier is an appendix rather than a contribution.</p>
+
+<h2>References</h2>
+<ol class="ref">
+<li>Glattfelder, J.B., Dupuis, A., Olsen, R.B. (2011). Patterns in high-frequency FX data: discovery of
+12 empirical scaling laws. <em>Quantitative Finance</em> 11(4), 599–614.</li>
+<li>Aloud, M., Tsang, E., Olsen, R., Dupuis, A. (2012). A directional-change event approach for studying
+financial time series. <em>Economics: The Open-Access, Open-Assessment E-Journal</em> 6, 2012-36, 1–17.</li>
+<li>Golub, A., Glattfelder, J.B., Olsen, R.B. (2018). The Alpha Engine: designing an automated trading
+algorithm. In M.A.H. Dempster, J. Kanniainen, J. Keane, E. Vynckier (eds.), <em>High-Performance Computing in Finance: Problems, Methods, and Solutions</em>, Ch. 3, pp. 49–76. Chapman and Hall/CRC.</li>
+<li>Ma, J., Xiong, X., He, F., Zhang, W. (2017). Volatility measurement with directional change in
+Chinese stock market: statistical property and investment strategy. <em>Physica A</em> 471, 169–180.</li>
+<li>Ao, H., Tsang, E. (2019). Trading algorithms built with directional changes. In <em>IEEE Conference
+on Computational Intelligence for Financial Engineering and Economics (CIFEr)</em>.</li>
+<li>Kampouridis, M., Otero, F.E.B. (2017). Evolving trading strategies using directional changes.
+<em>Expert Systems with Applications</em> 73, 145–160.</li>
+<li>Bakhach, A., Chinthalapati, V.L.R., Tsang, E., El Sayed, A.R. (2018). Intelligent dynamic backlash
+agent: a trading strategy based on the directional change framework. <em>Algorithms</em> 11(11), 171.</li>
+<li>Adegboye, A., Kampouridis, M. (2021). Machine learning classification and regression models for
+predicting directional changes trend reversal in FX markets. <em>Expert Systems with Applications</em>
+173, 114645.</li>
+<li>Adegboye, A., Kampouridis, M., Otero, F.E.B. (2023). Algorithmic trading with directional changes.
+<em>Artificial Intelligence Review</em> 56, 5619–5644.</li>
+<li>Tsang, E., Ma, S., Chinthalapati, V.L.R. (2024). Nowcasting directional change in high frequency FX
+markets. <em>Intelligent Systems in Accounting, Finance and Management</em> 31(1), e1552.</li>
+<li>Ao, H., Li, M. (2024). Exploiting the potential of a directional changes-based trading algorithm in
+the stock market. <em>Finance Research Letters</em> 60, 104936.</li>
+<li>Chen, J., Tsang, E.P.K. (2020). Detecting Regime Change in Computational Finance: Data Science,
+Machine Learning and Algorithmic Trading. CRC Press.</li>
+<li>Roll, R. (1984). A simple implicit measure of the effective bid-ask spread in an efficient market.
+<em>Journal of Finance</em> 39(4), 1127–1139.</li>
+<li>Corwin, S.A., Schultz, P. (2012). A simple way to estimate bid-ask spreads from daily high and low
+prices. <em>Journal of Finance</em> 67(2), 719–760.</li>
+<li>Lo, A.W., MacKinlay, A.C. (1988). Stock market prices do not follow random walks: evidence from a
+simple specification test. <em>Review of Financial Studies</em> 1(1), 41–66.</li>
+<li>Pardo, R. (2008). The Evaluation and Optimization of Trading Strategies, 2nd ed. Wiley.</li>
+</ol>
+</div>
+<div class="foot">Preprint · data and code available</div>

@@ -1,0 +1,4 @@
+# Adds what the Hong Kong replication and the directional-change kernels need.
+#   python src/dl_hk.py && python src/hk_pipeline.py
+-r requirements.txt
+numba>=0.58

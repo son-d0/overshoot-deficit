@@ -1,0 +1,11 @@
+# Everything needed to verify the results:
+#   python verify/verify_collapse.py
+#   python verify/verify_oos.py
+#   python verify/verify_hk.py
+#
+# No upper bounds are pinned. The analysis was written against numpy 1.26, pandas 2.3 and
+# scipy 1.12, and was last checked on a fresh environment resolving numpy 2.5, pandas 3.0 and
+# scipy 1.18 — two major versions on — with every reported figure unchanged.
+numpy>=1.24
+pandas>=2.0
+scipy>=1.10
