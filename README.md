@@ -93,15 +93,15 @@ because the method should be readable line by line; what they produced is in `re
 
 ```mermaid
 flowchart LR
-  X[dc_legs_vn30f1m.csv.gz] --> B[verify_collapse.py]
-  X --> C[verify_oos.py]
-  Y[dc_legs_hkgidx.csv.gz] --> D[verify_hk.py]
-  B --> E[Figure 3 · ANOVA · beta_C]
-  C --> F[Figure 1 · Section 5 prediction]
-  D --> G[Tables 6 and 7]
-  P[prereg/] --> R[what was fixed before the result existed]
-  Q[records/] --> S[what the result turned out to be]
-  R --> T[audit trail]
+  X["dc_legs_vn30f1m.csv.gz"] --> B["verify_collapse.py"]
+  X --> C["verify_oos.py"]
+  Y["dc_legs_hkgidx.csv.gz"] --> D["verify_hk.py"]
+  B --> E["Figure 3 - ANOVA - beta_C"]
+  C --> F["Figure 1 - Section 5 prediction"]
+  D --> G["Tables 6 and 7"]
+  P["prereg/"] --> R["what was fixed before the result existed"]
+  Q["records/"] --> S["what the result turned out to be"]
+  R --> T["audit trail"]
   S --> T
 ```
 
